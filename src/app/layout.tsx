@@ -1,3 +1,5 @@
+import Navbar from '@/components/Navbar';
+import { RootStoreProvider } from '@/context/RootStoreContext';
 import '@styles/base.scss'
 
 export default function RootLayout({
@@ -8,7 +10,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <RootStoreProvider>
+            <Navbar></Navbar>
+            {children}
+        </RootStoreProvider>
       </body>
     </html>
   );

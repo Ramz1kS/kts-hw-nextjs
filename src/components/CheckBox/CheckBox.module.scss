@@ -1,0 +1,52 @@
+@use '@styles/variables.scss' as *;
+
+.checkbox {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  background-color: $input-background;
+
+  border: 1px solid $checkbox-border-primary;
+  stroke: $checkbox-border-active;
+
+  &_disabled {
+    background-color: rgba($input-background, 0.5);
+    stroke: $checkbox-border-disabled;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+
+  &:not(&_disabled):hover::after {
+    border-color: $text-accent;
+  }
+
+  &__input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 0px;
+    appearance: none;
+  }
+
+  &__check {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+}

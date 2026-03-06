@@ -1,0 +1,17 @@
+@use '@styles/variables.scss' as *;
+
+.product-rating {
+  display: flex;
+
+  &__circle {
+    border-radius: 50%;
+
+    &_filled {
+      background-color: $rating-active;
+    }
+
+    &_empty {
+      background-color: $rating-inactive;
+    }
+  }
+}

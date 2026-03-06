@@ -1,0 +1,117 @@
+@use '@styles/variables.scss' as *;
+
+.product-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  &__image-wrapper {
+    position: relative;
+    width: 600px;
+    height: 600px;
+
+    @media screen and (max-width: 600px) {
+      width: 450px;
+      height: 450px;
+    }
+
+    @media screen and (max-width: 450px) {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &__image {
+    object-fit: cover;
+  }
+
+  &__nav-btn-prev,
+  &__nav-btn-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    stroke: $text-primary;
+
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+  }
+
+  &__nav-btn-prev {
+    left: 16px;
+  }
+
+  &__nav-btn-next {
+    right: 16px;
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  &__image-counter {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__content {
+    display: flex;
+    gap: 70px;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__button_cart {
+    background-color: $button-cart-primary-bg;
+    border: 1px solid $button-cart-primary-border;
+    color: $text-primary;
+  }
+
+  &__price {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  &__price-current {
+    word-break: break-all;
+  }
+
+  &__price-old {
+    word-break: break-all;
+    text-decoration: line-through;
+  }
+}

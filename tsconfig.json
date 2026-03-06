@@ -21,8 +21,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@public/*": ["./public/*"],
-      "@components/*": ["./src/shared/components*"],
-      "@styles/*": ["./src/shared/styles/*"]
+      "@components/*": ["./src/components/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@config/*": ["./src/config/*"]
     }
   },
   "include": [
