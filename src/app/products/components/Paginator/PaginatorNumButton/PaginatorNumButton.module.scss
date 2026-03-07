@@ -1,0 +1,19 @@
+@use '@styles/variables.scss' as *;
+
+.paginatorButtonActive {
+  background-color: $button-primary-bg;
+  color: $text-button;
+  border: none;
+  cursor: pointer;
+  width: 38px;
+  height: 42px;
+}
+
+.paginatorButton {
+  background-color: $paginator-bg-default;
+  border: none;
+  width: 38px;
+  height: 42px;
+  color: $paginator-primary;
+  cursor: pointer;
+}

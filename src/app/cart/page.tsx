@@ -1,15 +1,10 @@
 'use client'
 
-import Button from '@/components/Button'
 import CardList from '@/components/CardList'
 import Text from '@/components/Text'
-import * as motion from 'motion/react-client'
-import classes from './Cart.module.scss'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useRootStore } from '@/hooks/useRootStore'
 import { observer } from 'mobx-react-lite'
-import apiPaths from '@/config/apiRoutes'
-import type { ListResponse } from '@/shared/types'
 import Loader from '@/components/Loader'
 
 const CartPage = observer(() => {
@@ -17,7 +12,7 @@ const CartPage = observer(() => {
 
   useEffect(() => {
     cartStore.loadProducts()
-  }, [cartStore.productIds.length])
+  }, [cartStore.isHydrated])
 
   if (cartStore.isLoading) {
     return <Loader size="l" />

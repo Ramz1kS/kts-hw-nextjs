@@ -25,7 +25,10 @@
       "@styles/*": ["./src/styles/*"],
       "@stores/*": ["./src/stores/*"],
       "@shared/*": ["./src/shared/*"],
-      "@config/*": ["./src/config/*"]
+      "@config/*": ["./src/config/*"],
+      "@pageStores/*": ["./src/pageStores/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@context/*": ["./src/context/*"],
     }
   },
   "include": [

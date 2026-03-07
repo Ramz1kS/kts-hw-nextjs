@@ -8,32 +8,24 @@ import Link from 'next/link'
 type NavbarPageMiddleButtonProps = {
   name: pageName;
   path: string;
-  selected: pageName;
-  setSelected: (val: pageName) => void;
-  onClick?: () => void;
+  currPath: string
 };
 
 const NavbarPageMiddleButton: React.FC<NavbarPageMiddleButtonProps> = ({
   name,
   path,
-  selected,
-  setSelected,
-  onClick,
+  currPath
 }) => {
   const finalClassName = classNames({
     [classes.navbarPageButton]: true,
-    [classes['navbarPageButton-selected']]: selected == name,
+    [classes['navbarPageButton-selected']]: currPath == path,
   });
   return (
     <Link
-      href={path}
+      href={`/${path}`}
       className={finalClassName}
-      onClick={() => {
-        setSelected(name);
-        onClick?.();
-      }}
     >
-      <Text weight={selected == name ? 'bold' : 'normal'} view="p-18">
+      <Text weight={currPath == path ? 'bold' : 'normal'} view="p-18">
         {name}
       </Text>
     </Link>

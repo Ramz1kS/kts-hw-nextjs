@@ -4,11 +4,12 @@
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 60px;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   list-style-type: none;
 
   & > li {
     display: flex;
+    justify-content: center;
   }
 
   &__price {
@@ -24,5 +25,9 @@
 &__price_old {
   word-break: break-all;
   text-decoration: line-through;
+}
+
+&__link-wrapper {
+    height: 100%;
 }
 }

@@ -1,12 +1,13 @@
 'use client';
 
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './Card.module.scss';
 import Text from '@components/Text';
 import * as motion from 'motion/react-client';
 import ProductRating from '@components/ProductRating';
 import Image from 'next/image'
+import FavoriteButton from './FavoriteButton/FavoriteButton';
 
 export type CardProps = {
   className?: string;
@@ -23,6 +24,8 @@ export type CardProps = {
   actionSlot?: React.ReactNode;
   rating?: number;
   discountPercent?: number;
+  isInStock?: boolean;
+  id: number;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -35,8 +38,12 @@ const Card: React.FC<CardProps> = ({
   onClick,
   actionSlot,
   rating,
+  isInStock,
+  id
 }) => {
-  const finalClassName = classNames(classes.card, className);
+  const finalClassName = classNames(classes.card, className, {
+    [classes['card-notInStock']]: !isInStock
+  });
   const onImageNotFound = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     console.log('Image not found');
     e.currentTarget.src = '/no_img_found.png'
@@ -48,6 +55,7 @@ const Card: React.FC<CardProps> = ({
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.2 }}
     >
+        <FavoriteButton id={id}></FavoriteButton>
         <div className={classes['card__image-wrapper']}>
             <Image
             className={classes.card__image}
@@ -85,6 +93,7 @@ const Card: React.FC<CardProps> = ({
           <div className={classes.card__content}>{contentSlot}</div>
           {actionSlot}
         </div>
+        {!isInStock ? <Text className={classes['card__not-in-stock']} view='p-20' weight='bold'>Not in stock</Text> : null}
       </div>
     </motion.div>
   );

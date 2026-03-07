@@ -1,0 +1,21 @@
+@use '@styles/variables.scss' as *;
+
+.products-page {
+  padding-top: 130px;
+  padding-right: 100px;
+  padding-left: 100px;
+  padding-bottom: 50px;
+  background-color: $main-bg;
+  min-height: 100vh;
+
+  @media screen and (max-width: 600px) {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}

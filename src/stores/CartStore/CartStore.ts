@@ -9,6 +9,7 @@ class CartStore {
   productIds: number[] = [];
   products: ProductData[] = [];
   isLoading = false;
+  isHydrated = false;
   
   rootStore: RootStore
 
@@ -18,10 +19,12 @@ class CartStore {
       productIds: observable,
       products: observable,
       isLoading: observable,
+      isHydrated: observable,
       addProductId: action.bound,
       removeProductId: action.bound,
       clear: action.bound,
       loadProducts: action.bound,
+      hydrate: action.bound,
       count: computed,
       price: computed,
     });
@@ -36,6 +39,7 @@ class CartStore {
         this.productIds = []
       }
     }
+    this.isHydrated = true
   }
 
   addProductId(id: number) {
@@ -61,7 +65,7 @@ class CartStore {
     localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(this.productIds));
   }
 
-async loadProducts() {
+  async loadProducts() {
     if (this.productIds.length === 0) {
       this.products = []
       return
@@ -76,6 +80,23 @@ async loadProducts() {
 
       runInAction(() => {
         this.products = data.data
+        const idCount: { [key: number]: number } = {}
+        for (let i = 0; i < this.productIds.length; i++) {
+          const id = this.productIds[i]
+          if (idCount[id]) {
+            idCount[id]++
+          } else {
+            idCount[id] = 1
+          }
+        }
+        let keys = Object.keys(idCount)
+        for (let j: number = 0; j < keys.length; j++) {
+            let infoToDuplicate: ProductData;
+            infoToDuplicate = this.products.find(p => p.id === parseInt(keys[j], 10)) as ProductData
+            
+            for (let i = 1; i < idCount[parseInt(keys[j], 10)]; i++) 
+                this.products.push({ ...infoToDuplicate })
+        }
       })
     } finally {
       runInAction(() => {

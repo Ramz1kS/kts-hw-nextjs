@@ -9,16 +9,17 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onCh
   onChange: (value: string) => void;
   afterSlot?: React.ReactNode;
   placeholder?: string;
+  password?: boolean
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ value, onChange, afterSlot, className, placeholder = 'Text', ...rest }, ref) => {
+  ({ value, onChange, afterSlot, className, placeholder = 'Text', password = false, ...rest }, ref) => {
     return (
       <>
         <input
           ref={ref}
           value={value}
-          type="text"
+          type={password ? "password" : "text"}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={classNames(classes.myInput, className)}

@@ -10,7 +10,8 @@ let clientStore: RootStore | undefined;
 
 export const useCreateRootStore = (): RootStore => {
   const initRootStore = (): RootStore => {
-    return new RootStore();
+    const rootStore = new RootStore()
+    return rootStore;
   };
 
   let result: RootStore;

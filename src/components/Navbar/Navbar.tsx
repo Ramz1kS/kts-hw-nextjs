@@ -8,24 +8,24 @@ import NavbarPageMiddleButton from '@components/Navbar/NavbarPageMiddleButton';
 import NavbarPageRightButton from '@components/Navbar/NavbarPageRightButton';
 import { navItems } from '@config/navConfig';
 import NavbarCartLink from '@components/Navbar/NavbarCartLink';
-// import { navigationStore } from 'stores/NavigationStore/NavigationStore';
+import { usePathname } from 'next/navigation'
 import { observer } from 'mobx-react-lite';
+import { useSearchParams } from 'next/navigation';
+import NavbarFavoritesLink from './NavbarFavoritesLink';
 
 const Navbar = observer(() => {
+  const path = usePathname().split('/')
   return (
     <nav className={classes.navbar}>
-        {/* onClick={() => navigationStore.setCurrentPage('Products')} */}
-      <Link href="/">
+      <Link href="/products">
         <Image src={'/logo.svg'} width={130} height={42} alt='Lalasia' className={classes.navbar__logo}></Image>
       </Link>
-       {/* onClick={navigationStore.toggleMenu} */}
       <button className={classes.navbar__burger}>
         <span></span>
         <span></span>
         <span></span>
       </button>
       <div
-    //   ${navigationStore.isMenuOpen ? classes.navbar__buttons_open : ''}`
         className={`${classes.navbar__buttons}`}
       >
         {navItems.map((item) => (
@@ -33,17 +33,13 @@ const Navbar = observer(() => {
             key={item.name}
             name={item.name}
             path={item.href}
-            selected='Products'
-            setSelected={() => 'Products'}
-            // selected={navigationStore.currentPage}
-            // setSelected={navigationStore.setCurrentPage}
-            // onClick={navigationStore.closeMenu}
+            currPath={path.length > 0 ? path[1] : ''}
           />
         ))}
       </div>
       <div className={classes['navbar__buttons-right']}>
         <NavbarCartLink></NavbarCartLink>
-        <NavbarPageRightButton image='/user.svg'></NavbarPageRightButton>
+        <NavbarFavoritesLink></NavbarFavoritesLink>
       </div>
     </nav>
   );

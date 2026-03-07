@@ -25,21 +25,19 @@ const CardList: React.FC<CardListInterface> =
           <ul className={classes['card-list']}>
             {products.map((product, index) => (
               <motion.li
-                key={product.id}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
                 <Link href={`/products/${product.documentId}`} className={classes['card-list__link']}>
-                  <article
-                    style={{
-                      opacity: product.isInStock ? 1 : 0.5,
-                    }}
-                  >
+                  <article className={classes['card-list__link-wrapper']}>
                     <Card
                       image={
                         product.images.length != 0 ? product.images[0].formats.small.url : undefined
                       }
+                      id={product.id}
+                      isInStock={product.isInStock}
                       captionSlot={product.productCategory.title}
                       title={product.title}
                       subtitle={product.description}
@@ -67,7 +65,6 @@ const CardList: React.FC<CardListInterface> =
                       }
                       rating={product.rating}
                       actionSlot={
-                        product.isInStock ? (
                           <Button oneLined
                             onClick={(e) => {
                               e.stopPropagation();
@@ -77,11 +74,6 @@ const CardList: React.FC<CardListInterface> =
                           >
                             {buttonText}
                           </Button>
-                        ) : (
-                          <Text view="p-18" weight="medium" color="secondary">
-                            Not in stock!
-                          </Text>
-                        )
                       }
                     />
                   </article>

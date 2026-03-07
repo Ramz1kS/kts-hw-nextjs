@@ -35,6 +35,7 @@
   }
 
   &:disabled {
+    cursor:not-allowed;
     background-color: $button-primary-bg-disabled;
   }
 
