@@ -6,6 +6,7 @@ import classes from './FavoriteButton.module.scss'
 import { useRootStore } from '@/hooks/useRootStore'
 import { observer } from 'mobx-react-lite'
 import { motion } from 'framer-motion'
+import animConfig from '@/config/animConfig'
 
 type FavoriteButtonProps = {
     id: number
@@ -21,8 +22,8 @@ const FavoriteButton = observer(({id} : FavoriteButtonProps) => {
   return (
     <motion.button 
     onClick={onClick}
-    whileHover={{scale: 1.05}}
-    whileTap={{scale: 0.95}}
+    whileHover={animConfig.generalWhileHover}
+    whileTap={animConfig.generalWhileTap}
     className={classes.favoritesAdd}>
         <Image 
         width={45} 

@@ -25,7 +25,11 @@ const SearchFilter: React.FC = observer(() => {
 
   const setUrlParams = () => {
     const params = pageStore.getURLSearchParams()
-    router.replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}/`);
+  }
+
+  const resetFilters = () => {
+    router.replace(pathname)
   }
 
   return (
@@ -76,6 +80,8 @@ const SearchFilter: React.FC = observer(() => {
         options={pageStore.sortHow} 
         selected={pageStore.selectedSortHow}
         setSelected={pageStore.setSortHow}></OptionSelector>
+        <Button oneLined onClick={resetFilters}
+        >Reset filters</Button>
       </div>
     </>
   );

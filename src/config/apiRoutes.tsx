@@ -1,9 +1,12 @@
 import { ProductListQuery } from "@/shared/types"
 
+const API_DOMAIN = process.env.NEXT_PUBLIC_API_DOMAIN
+const IMAGES_CATEGORIES = 'populate[0]=images&populate[1]=productCategory'
+
 const apiPaths = {
-  products: `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products?populate[0]=images&populate[1]=productCategory`,
+  products: `${API_DOMAIN}/api/products?${IMAGES_CATEGORIES}`,
   getProductsURL: (params: ProductListQuery) => {
-    let baseUrl = `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products?populate[0]=images&populate[1]=productCategory&pagination[pageSize]=9`
+    let baseUrl = `${API_DOMAIN}/api/products?${IMAGES_CATEGORIES}&pagination[pageSize]=9`
     let paramString = ''
     paramString += params.page ? `&pagination[page]=${params.page}` : '&pagination[page]=1'
     paramString += params.inStockOnly == 'true' ? 
@@ -17,15 +20,15 @@ const apiPaths = {
     return baseUrl + paramString
   },
   getProductURL: (documentId: string) =>
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/${documentId}?populate[0]=images&populate[1]=productCategory`,
-  getProductsByIds: (ids: number[]) => {
+    `${API_DOMAIN}/api/products/${documentId}?populate[0]=images&populate[1]=productCategory`,
+  getProductsByIds: (ids: number[], pageSize: number = ids.length) => {
   const params = ids
     .map((id, i) => `filters[id][$in][${i}]=${id}`)
     .join('&')
 
-  return `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products?populate[0]=images&populate[1]=productCategory&${params}&pagination[pageSize]=${ids.length}`
+  return `${API_DOMAIN}/api/products?populate[0]=images&populate[1]=productCategory&${params}&pagination[pageSize]=${pageSize}`
 },
-  categories: `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/product-categories`,
+  categories: `${API_DOMAIN}/api/product-categories`,
 };
 
 export default apiPaths;

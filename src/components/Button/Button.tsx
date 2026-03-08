@@ -5,6 +5,7 @@ import classes from './Button.module.scss';
 import classNames from 'classnames';
 import Loader from '@components/Loader';
 import { motion } from 'framer-motion';
+import animConfig from '@/config/animConfig';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
@@ -19,8 +20,8 @@ const Button: React.FC<ButtonProps> = ({ loading, children, className, disabled,
   });
   return (
     <motion.div
-      whileHover={{ scale: disabled ? 1 : 1.05 }}
-      whileTap={{ scale: disabled ? 1 : 0.95 }}
+      whileHover={{ scale: disabled ? 1 : animConfig.generalWhileHover.scale }}
+      whileTap={{ scale: disabled ? 1 : animConfig.generalWhileTap.scale }}
       className={classes.myBtn__wrapper}
     >
       <button className={btnClass} disabled={loading || disabled} {...rest}>

@@ -8,6 +8,7 @@ import * as motion from 'motion/react-client';
 import ProductRating from '@components/ProductRating';
 import Image from 'next/image'
 import FavoriteButton from './FavoriteButton/FavoriteButton';
+import animConfig from '@/config/animConfig';
 
 export type CardProps = {
   className?: string;
@@ -52,7 +53,7 @@ const Card: React.FC<CardProps> = ({
     <motion.div
       className={finalClassName}
       onClick={onClick}
-      whileHover={{ scale: 1.02 }}
+      whileHover={animConfig.generalWhileHover}
       transition={{ duration: 0.2 }}
     >
         <FavoriteButton id={id}></FavoriteButton>

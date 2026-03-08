@@ -1,5 +1,5 @@
-import { action, computed, makeObservable, observable, runInAction } from 'mobx';
-import type { ListResponse, ProductData } from '@shared/types';
+import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
+import type { ListResponse, LoadingInfo, ProductData } from '@shared/types';
 import RootStore from '../RootStore';
 import apiPaths from '@/config/apiRoutes';
 
@@ -8,7 +8,11 @@ const E_COMMERSE_STORAGE_NAME = 'ecommerse_cart';
 class CartStore {
   productIds: number[] = [];
   products: ProductData[] = [];
-  isLoading = false;
+  loadingInfo: LoadingInfo = {
+    isLoading: false,
+    isError: false,
+    errorCode: '',
+  };
   isHydrated = false;
   
   rootStore: RootStore
@@ -18,7 +22,7 @@ class CartStore {
     makeObservable(this, {
       productIds: observable,
       products: observable,
-      isLoading: observable,
+      loadingInfo: observable,
       isHydrated: observable,
       addProductId: action.bound,
       removeProductId: action.bound,
@@ -28,6 +32,13 @@ class CartStore {
       count: computed,
       price: computed,
     });
+
+    reaction(
+      () => this.productIds.slice(),
+      (ids) => {
+        localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(ids));
+      }
+    );
   }
 
   hydrate() {
@@ -43,8 +54,7 @@ class CartStore {
   }
 
   addProductId(id: number) {
-      this.productIds.push(id);
-      localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(this.productIds));
+    this.productIds.push(id);
   }
 
   removeProductId(id: number) {
@@ -56,26 +66,30 @@ class CartStore {
     if (productIndex > -1) {
       this.products.splice(productIndex, 1);
     }
-    localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(this.productIds));
   }
 
   clear() {
     this.productIds = [];
     this.products = [];
-    localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(this.productIds));
   }
 
   async loadProducts() {
     if (this.productIds.length === 0) {
       this.products = []
+      this.loadingInfo.isLoading = false
       return
     }
 
-    this.isLoading = true
+    this.loadingInfo.isLoading = true
 
     try {
       const uniqueIds = [...new Set(this.productIds)]
       const res = await fetch(apiPaths.getProductsByIds(uniqueIds))
+      
+      if (!res.ok) {
+        throw new Error(res.status.toString())
+      }
+      
       const data: ListResponse = await res.json()
 
       runInAction(() => {
@@ -98,9 +112,15 @@ class CartStore {
                 this.products.push({ ...infoToDuplicate })
         }
       })
-    } finally {
+    } catch (e) {
+        runInAction(() => {
+          this.loadingInfo.isError = true
+          this.loadingInfo.errorCode = e instanceof Error ? e.message : '200'
+        })
+    }
+    finally {
       runInAction(() => {
-        this.isLoading = false
+        this.loadingInfo.isLoading = false
       })
     }
   }

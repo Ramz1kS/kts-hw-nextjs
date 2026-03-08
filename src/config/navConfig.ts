@@ -1,7 +1,10 @@
 import type { NavItem } from '@shared/types';
 
-export const navItems: NavItem[] = [
+export const navItemsCenter: NavItem[] = [
   { name: 'Products', href: 'products' },
-//   { name: 'Categories', href: '/categories' },
+//   { name: 'Categories', href: '/categories' }, потом
   { name: 'About us', href: 'about' },
 ];
+
+export const navLalasiaLink = '/products'
+export const errorLink = (code: string) => `/error/${code}`

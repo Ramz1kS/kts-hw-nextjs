@@ -6,12 +6,10 @@ import CardList from '@components/CardList';
 import classes from './RelatedItems.module.scss';
 import { ProductData } from '@/shared/types';
 import { useRootStore } from '@/hooks/useRootStore';
+import { useProductPageStore } from '@/hooks/useProductPageStore';
 
-type RelatedItemsProps = {
-    productList: ProductData[]
-}
-
-const RelatedItems = ({productList} : RelatedItemsProps) => {
+const RelatedItems = () => {
+  const productList: ProductData[] = useProductPageStore().relatedData
   const rootStore = useRootStore()
   return (
     <>
@@ -22,7 +20,7 @@ const RelatedItems = ({productList} : RelatedItemsProps) => {
         <Text>Related items list is empty</Text>
       ) : (
         <CardList
-          buttonText="Add to cart"
+          buttonText="Add to Cart"
           onButtonClick={(product) => rootStore.cartStore.addProductId(product.id)}
           products={productList}
         />

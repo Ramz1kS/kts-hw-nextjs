@@ -9,19 +9,16 @@ import Image from 'next/image';
 import * as motion from "motion/react-client"
 import AddToCartButton from './AddToCartButton';
 import ArrowLeftIcon from '@components/icons/ArrowLeftIcon';
+import { useProductPageStore } from '@/hooks/useProductPageStore';
 
-type ProductInfoProps = {
-    product: ProductData
-}
 
-function ProductInfo({ product }: ProductInfoProps) {
+function ProductInfo() {
+    const product = useProductPageStore().data
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const hasMultipleImages = product.images.length > 1
-
     const nextImage = () => {
       setCurrentImageIndex((prev) => (prev + 1) % product.images.length)
     }
-
     const prevImage = () => {
       setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length)
     }
@@ -65,7 +62,7 @@ function ProductInfo({ product }: ProductInfoProps) {
             </Text>
 
             {product.rating !== undefined ? (
-              <ProductRating rating={product.rating} size={18} gap={3}></ProductRating>
+              <ProductRating rating={product.rating} size='medium' gap={3}></ProductRating>
             ) : null}
               <Text color="secondary" view="p-20">
                   {product.description ?? 'No description was provided'}

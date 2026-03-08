@@ -26,27 +26,18 @@ export type ErrorInfo = {
   errorStatus: number;
 };
 
-// type ProductImageData = {
-//     id: number;
-//     url: string;
-// }
+type ProductImageData = {
+    id: number;
+    url: string;
+}
 
 export type ProductImage = {
   id: number;
   url: string;
   formats: {
-    large: {
-      id: number;
-      url: string;
-    };
-    medium: {
-      id: number;
-      url: string;
-    };
-    small: {
-      id: number;
-      url: string;
-    };
+    large: ProductImageData;
+    medium: ProductImageData;
+    small: ProductImageData;
   };
 };
 
@@ -110,4 +101,10 @@ export type ProductListQuery = {
     categories: string | undefined,
     sortBy: string | undefined,
     sortHow: string | undefined
+}
+
+export type LoadingInfo = {
+    isLoading: boolean
+    isError: boolean
+    errorCode: string
 }

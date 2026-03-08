@@ -15,6 +15,7 @@ export default class ProductListStore {
     priceSort: string | null = null
     ratingSort: string | null = null
     isError: boolean = false;
+    errorCode: string = ""
     sortHow: Option[] = [ 
         {key: 'desc', name: 'High to low'},
         {key: 'asc', name: 'Low to high'}
@@ -128,7 +129,7 @@ export default class ProductListStore {
     return new ProductListStore(initData, initQuery);
   }
 
-  static async getInitData(params: ProductListQuery): Promise<{ data: ProductsListStoreInitData | undefined; isError: boolean; }> { 
+  static async getInitData(params: ProductListQuery): Promise<{ data: ProductsListStoreInitData | undefined; isError: boolean; errorCode: string }> { 
     console.log(params)
     const [productsRes, categoriesRes] = await Promise.all([
         fetch(apiPaths.getProductsURL(params), { next: { revalidate: 0 } }),
@@ -141,19 +142,23 @@ export default class ProductListStore {
         isError = true
         return {
             data: undefined,
-            isError: isError
+            isError: isError,
+            errorCode: productsRes.statusText
         }
     }
 
     const productsData: ListResponse = await productsRes.json()
     const categoriesData: CategoryResponse = await categoriesRes.json()
 
-    if (productsData.meta.pagination.page > productsData.meta.pagination.pageCount) {
-        return this.getInitData({...params, page: productsData.meta.pagination.pageCount.toString()})
+    // бесконечного цикла здесь не должно быть, мы же просто правим параметры
+    // запроса и делаем новый запрос. если количество страниц нулевое, но оставляем как есть
+    // если вдруг query параметры плохие - запросим снова с правильными
+    if (productsData.meta.pagination.pageCount != 0) {
+        if (productsData.meta.pagination.page > productsData.meta.pagination.pageCount)
+            return this.getInitData({...params, page: productsData.meta.pagination.pageCount.toString()})
+        if (productsData.meta.pagination.page < 1)
+            return this.getInitData({...params, page: '1'})
     } 
-    if (productsData.meta.pagination.page < 1) {
-        return this.getInitData({...params, page: '1'})
-    }
 
     const initData: ProductsListStoreInitData = {
         products: productsData.data,
@@ -164,7 +169,8 @@ export default class ProductListStore {
     }
     return {
         data: initData,
-        isError: isError
+        isError: isError,
+        errorCode: ''
     }
   }
 }

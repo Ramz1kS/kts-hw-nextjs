@@ -12,6 +12,11 @@ interface OptionSelectorProps {
     setSelected: (val: string) => void
 }
 
+// просто ПОЧЕМУ <option> стилизуются не разработчиками, а БРАУЗЕРАМИ
+// ПОЧЕМУ в <option> нельзя банально цвет ФОНА поменять. БОЖЕ.
+
+// пришлось делать кастомный селект
+
 const OptionSelector: React.FC<OptionSelectorProps> = ({
     name = "Some selector", options, selected, setSelected
 }) => {

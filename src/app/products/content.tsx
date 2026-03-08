@@ -9,7 +9,7 @@ import ProductsStatus from './components/ProductsStatus/ProductsStatus'
 import classes from './Products.module.scss'
 import { useRootStore } from '@hooks/useRootStore'
 import SearchFilter from './components/SearchFilter'
-import Paginator from './components/Paginator'
+import Paginator from '@components/Paginator'
 import { usePathname, useRouter } from 'next/navigation'
 
 const ProductsPageContent = observer(() => {
@@ -19,7 +19,7 @@ const ProductsPageContent = observer(() => {
   const usePath = usePathname()
   const setCurrPage = (val: number) => {
     store.setPage(val)
-    router.replace(`${usePath}?${store.getURLSearchParams()}`)
+    router.replace(`${usePath}?${store.getURLSearchParams()}/`)
   }
   return (
     <div className={classes['products-page']}>
