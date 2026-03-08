@@ -1,16 +1,15 @@
-'use client'
+"use client";
 
-import React from 'react';
-import classes from './PaginatorArrowButton.module.scss';
-import classNames from 'classnames';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
+import React from "react";
+import classes from "./PaginatorArrowButton.module.scss";
+import classNames from "classnames";
+import Image from "next/image";
 
 interface PaginatorArrowButtonProps {
   currNum: number;
   setCurrent: (val: number) => void;
   total: number;
-  type: 'forward' | 'backward';
+  type: "forward" | "backward";
 }
 
 const PaginatorArrowButton: React.FC<PaginatorArrowButtonProps> = ({
@@ -20,23 +19,29 @@ const PaginatorArrowButton: React.FC<PaginatorArrowButtonProps> = ({
   type,
 }) => {
   const finalClassName = classNames({
-    [classes['forward']]: type == 'forward',
-    [classes['disabled']]: type == 'forward' ? currNum == total : currNum == 1,
+    [classes["forward"]]: type == "forward",
+    [classes["disabled"]]: type == "forward" ? currNum == total : currNum == 1,
   });
   return (
     <button
-      disabled={type == 'forward' ? currNum == total : currNum == 1}
+      disabled={type == "forward" ? currNum == total : currNum == 1}
       className={classes.arrowButton}
       onClick={() => {
         let bruh = currNum;
-        if (type == 'backward') bruh--;
+        if (type == "backward") bruh--;
         else bruh++;
         if (bruh == 0) bruh = 1;
         else if (bruh > total) bruh = total;
         setCurrent(bruh);
       }}
     >
-      <img className={finalClassName} src='/arrow-left.svg'></img>
+      <Image
+        alt="arrow"
+        width={35}
+        height={35}
+        className={finalClassName}
+        src="/arrow-left.svg"
+      ></Image>
     </button>
   );
 };

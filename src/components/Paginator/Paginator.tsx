@@ -1,8 +1,8 @@
-import React from 'react';
-import classes from './Paginator.module.scss';
-import PaginatorNumButton from './PaginatorNumButton';
-import Text from '@components/Text';
-import PaginatorArrowButton from './PaginatorArrowButton';
+import React from "react";
+import classes from "./Paginator.module.scss";
+import PaginatorNumButton from "./PaginatorNumButton";
+import Text from "@components/Text";
+import PaginatorArrowButton from "./PaginatorArrowButton";
 
 interface PaginatorProps {
   current: number;
@@ -10,7 +10,11 @@ interface PaginatorProps {
   setCurrent: (val: number) => void;
 }
 
-const Paginator: React.FC<PaginatorProps> = ({ current, total, setCurrent }) => {
+const Paginator: React.FC<PaginatorProps> = ({
+  current,
+  total,
+  setCurrent,
+}) => {
   return (
     <div className={classes.paginator}>
       {total < 5 ? (

@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import Button, { type ButtonProps } from './Button';
+import Button, { type ButtonProps } from "./Button";
 
 export default {
-  title: 'Button',
+  title: "Button",
   component: Button,
   argTypes: {
     className: {
-      control: 'text',
+      control: "text",
     },
     disabled: {
       control: {
-        type: 'boolean',
+        type: "boolean",
       },
       mapping: {
         true: true,
@@ -21,7 +21,7 @@ export default {
     },
     loading: {
       control: {
-        type: 'boolean',
+        type: "boolean",
       },
       mapping: {
         true: true,
@@ -30,8 +30,8 @@ export default {
       },
     },
     children: {
-      type: { name: 'string', required: false },
-      defaultValue: 'Send',
+      type: { name: "string", required: false },
+      defaultValue: "Send",
     },
   },
 };

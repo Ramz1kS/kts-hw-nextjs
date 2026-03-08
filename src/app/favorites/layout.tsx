@@ -1,7 +1,7 @@
-import * as motion from 'motion/react-client'
-import Text from '@/components/Text'
-import classes from './Favorites.module.scss'
-import React from 'react'
+import * as motion from "motion/react-client";
+import Text from "@/components/Text";
+import classes from "./Favorites.module.scss";
+import React from "react";
 
 const CartLayout = ({
   children,
@@ -20,7 +20,7 @@ const CartLayout = ({
       </Text>
       {children}
     </motion.div>
-  )
-}
+  );
+};
 
-export default CartLayout
+export default CartLayout;

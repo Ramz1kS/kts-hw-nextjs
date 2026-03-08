@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
 import FavoritesPageStore from "@/pageStores/FavoritesPageStore/FavoritesPageStore";
 import { useLocalStore } from "mobx-react-lite";
 import React from "react";
 
-export const FavoritesPageStoreContext = React.createContext<FavoritesPageStore | null>(null);
+export const FavoritesPageStoreContext =
+  React.createContext<FavoritesPageStore | null>(null);
 
 type FavoritesPageStoreContextProviderValue = React.PropsWithChildren<{
   initialPage?: number;

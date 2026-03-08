@@ -1,1 +1,1 @@
-export { default } from './PaginatorNumButton';
+export { default } from "./PaginatorNumButton";

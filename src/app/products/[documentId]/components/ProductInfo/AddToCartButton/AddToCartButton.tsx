@@ -1,25 +1,25 @@
-'use client'
+"use client";
 
-import Button from '@/components/Button'
-import React from 'react'
-import classes from './AddToCartButton.module.scss'
-import { useRootStore } from '@/hooks/useRootStore'
+import Button from "@/components/Button";
+import React from "react";
+import classes from "./AddToCartButton.module.scss";
+import { useRootStore } from "@/hooks/useRootStore";
 
 type AddToCartButtonProps = {
-    id: number;
-}
+  id: number;
+};
 
-const AddToCartButton = ({id}: AddToCartButtonProps) => {
-  const rootStore = useRootStore()
+const AddToCartButton = ({ id }: AddToCartButtonProps) => {
+  const rootStore = useRootStore();
   return (
     <Button
-        oneLined
-        className={classes['product-info__button_cart']}
-        onClick={() => rootStore.cartStore.addProductId(id)}
+      oneLined
+      className={classes["product-info__button_cart"]}
+      onClick={() => rootStore.cartStore.addProductId(id)}
     >
-        Add to cart
+      Add to cart
     </Button>
-  )
-}
+  );
+};
 
-export default AddToCartButton
+export default AddToCartButton;

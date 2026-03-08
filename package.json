@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css,scss,json,md}\""
   },
   "dependencies": {
     "classnames": "^2.5.1",
@@ -15,6 +16,7 @@
     "mobx-react-lite": "^4.1.1",
     "motion": "^12.35.0",
     "next": "16.1.6",
+    "prettier": "^3.8.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sass": "^1.97.3"

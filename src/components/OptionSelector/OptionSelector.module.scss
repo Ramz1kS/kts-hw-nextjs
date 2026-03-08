@@ -1,60 +1,60 @@
-@use '@styles/variables.scss' as *;
+@use "@styles/variables.scss" as *;
 
 .selector {
-    height: 52px;
-    width: 100%;
-    padding-left: 16px;
-    padding-right: 40px;
-    border: 1px solid $checkbox-border-primary;
-    background: $option-background;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: left;
+  height: 52px;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 40px;
+  border: 1px solid $checkbox-border-primary;
+  background: $option-background;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
 
-    &__name {
-        white-space: nowrap;
-    }
+  &__name {
+    white-space: nowrap;
+  }
 
-    &__wrapper {
-        width: min-content;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-direction: row;
-    }
+  &__wrapper {
+    width: min-content;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+  }
 
-    &__container {
-        position: relative;
-        width: 200px;
-    }
+  &__container {
+    position: relative;
+    width: 200px;
+  }
 
-    &__arrow {
-        position: absolute;
-        right: 20px;
-        top: 30%;
-        pointer-events: none;
-    }
+  &__arrow {
+    position: absolute;
+    right: 20px;
+    top: 30%;
+    pointer-events: none;
+  }
 }
 
 .selector:focus {
-    outline: 1px solid $text-accent;
+  outline: 1px solid $text-accent;
 }
 
 .options {
-    position: absolute;
-    z-index: 9;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    top: 60px;
-    background: $option-background;
+  position: absolute;
+  z-index: 9;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  top: 60px;
+  background: $option-background;
 }
 
 .option {
-    padding: $space-s $space-xs;
-    background-color: $option-background;
-    cursor: pointer;
+  padding: $space-s $space-xs;
+  background-color: $option-background;
+  cursor: pointer;
 
-    &:hover {
-        background-color: $main-bg;
-    }
+  &:hover {
+    background-color: $main-bg;
+  }
 }

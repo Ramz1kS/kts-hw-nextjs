@@ -1,1 +1,1 @@
-export { default } from './NavbarPageMiddleButton';
+export { default } from "./NavbarPageMiddleButton";

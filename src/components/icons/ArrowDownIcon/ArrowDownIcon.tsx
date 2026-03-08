@@ -1,8 +1,13 @@
-import * as React from 'react';
-import Icon, { type IconProps } from '../Icon';
-import classes from './ArrowDownIcon.module.scss';
+import * as React from "react";
+import Icon, { type IconProps } from "../Icon";
+import classes from "./ArrowDownIcon.module.scss";
 
-const ArrowDownIcon: React.FC<IconProps> = ({ width = 24, height = 24, color, ...props }) => {
+const ArrowDownIcon: React.FC<IconProps> = ({
+  width = 24,
+  height = 24,
+  color,
+  ...props
+}) => {
   return (
     <Icon width={width} height={height} {...props}>
       <path

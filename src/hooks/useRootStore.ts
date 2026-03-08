@@ -4,6 +4,6 @@ import { useStrictContext } from "./useStrictContext";
 export const useRootStore = () => {
   return useStrictContext({
     context: RootStoreContext,
-    message: 'RootStoreContext was not provided',
+    message: "RootStoreContext was not provided",
   });
 };

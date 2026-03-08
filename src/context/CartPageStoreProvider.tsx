@@ -1,10 +1,12 @@
-'use client'
+"use client";
 
 import CartPageStore from "@/pageStores/CartPageStore/CartPageStore";
 import { useLocalStore } from "mobx-react-lite";
 import React from "react";
 
-export const CartPageStoreContext = React.createContext<CartPageStore | null>(null);
+export const CartPageStoreContext = React.createContext<CartPageStore | null>(
+  null,
+);
 
 type CartPageStoreContextProviderValue = React.PropsWithChildren<{
   initialPage?: number;

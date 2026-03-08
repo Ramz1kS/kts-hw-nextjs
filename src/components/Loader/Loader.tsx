@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
 export type LoaderProps = {
-  size?: 's' | 'm' | 'l' | 'sl';
+  size?: "s" | "m" | "l" | "sl";
   className?: string;
 };
 
 const Loader: React.FC<LoaderProps> = ({ size, className }) => {
   const getSizeDiv = () => {
-    if (size == 'sl') return 120;
-    if (size == 'l' || size == undefined) return 60;
-    if (size == 'm') return 48;
-    if (size == 's') return 24;
+    if (size == "sl") return 120;
+    if (size == "l" || size == undefined) return 60;
+    if (size == "m") return 48;
+    if (size == "s") return 24;
   };
   return (
     <svg

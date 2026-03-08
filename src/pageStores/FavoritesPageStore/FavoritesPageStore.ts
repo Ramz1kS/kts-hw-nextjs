@@ -1,22 +1,22 @@
 import { LoadingInfo, ProductData } from "@/shared/types";
-import { action, computed, makeObservable, observable, runInAction } from "mobx";
-import apiPaths from '@/config/apiRoutes';
-import type { ListResponse } from '@shared/types';
+import { action, makeObservable, observable, runInAction } from "mobx";
+import apiPaths from "@/config/apiRoutes";
+import type { ListResponse } from "@shared/types";
 
 export default class FavoritesPageStore {
-  products: ProductData[] = []
-  totalCount = 0
+  products: ProductData[] = [];
+  totalCount = 0;
   loadingInfo: LoadingInfo = {
     isLoading: false,
     isError: false,
-    errorCode: '',
-  }
-  currPage = 1
-  pageSize = 9
-  maxPage = 1
+    errorCode: "",
+  };
+  currPage = 1;
+  pageSize = 9;
+  maxPage = 1;
 
   constructor(initialPage: number = 1) {
-    this.currPage = initialPage
+    this.currPage = initialPage;
     makeObservable(this, {
       products: observable,
       totalCount: observable,
@@ -25,51 +25,51 @@ export default class FavoritesPageStore {
       setPage: action.bound,
       loadProducts: action.bound,
       maxPage: observable,
-    })
+    });
   }
 
   setPage(page: number) {
-    this.currPage = page
+    this.currPage = page;
   }
 
   async loadProducts(productIds: number[]) {
     if (productIds.length === 0) {
-      this.products = []
-      this.totalCount = 0
-      this.loadingInfo.isLoading = false
-      return
+      this.products = [];
+      this.totalCount = 0;
+      this.loadingInfo.isLoading = false;
+      return;
     }
 
-    this.loadingInfo.isLoading = true
-    this.totalCount = productIds.length
+    this.loadingInfo.isLoading = true;
+    this.totalCount = productIds.length;
 
     try {
-      const start = (this.currPage - 1) * this.pageSize
-      const end = start + this.pageSize
-      const pageIds = productIds.slice(start, end)
-      const uniqueIds = [...new Set(pageIds)]
-      
-      const res = await fetch(apiPaths.getProductsByIds(uniqueIds))
-      
+      const pageIds = productIds.slice();
+      const uniqueIds = [...new Set(pageIds)];
+
+      const res = await fetch(
+        apiPaths.getProductsByIds(uniqueIds, 9, this.currPage),
+      );
+
       if (!res.ok) {
-        throw new Error(res.status.toString())
+        throw new Error(res.status.toString());
       }
-      
-      const data: ListResponse = await res.json()
+
+      const data: ListResponse = await res.json();
 
       runInAction(() => {
-        this.products = data.data
-        this.maxPage = data.meta.pagination.pageCount
-      })
+        this.products = data.data;
+        this.maxPage = data.meta.pagination.pageCount;
+      });
     } catch (e) {
       runInAction(() => {
-        this.loadingInfo.isError = true
-        this.loadingInfo.errorCode = e instanceof Error ? e.message : '200'
-      })
+        this.loadingInfo.isError = true;
+        this.loadingInfo.errorCode = e instanceof Error ? e.message : "200";
+      });
     } finally {
       runInAction(() => {
-        this.loadingInfo.isLoading = false
-      })
+        this.loadingInfo.isLoading = false;
+      });
     }
   }
 }

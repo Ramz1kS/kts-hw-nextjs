@@ -1,30 +1,30 @@
-import React from 'react';
-import { type IconProps } from './Icon';
-import CheckIcon from './CheckIcon';
-import ArrowDownIcon from './ArrowDownIcon';
+import React from "react";
+import { type IconProps } from "./Icon";
+import CheckIcon from "./CheckIcon";
+import ArrowDownIcon from "./ArrowDownIcon";
 
 export default {
-  title: 'Icons',
+  title: "Icons",
   argTypes: {
     className: {
-      control: 'text',
+      control: "text",
     },
     color: {
-      options: ['primary', 'secondary', 'accent'],
-      mapping: ['primary', 'secondary', 'accent'],
-      control: 'select',
+      options: ["primary", "secondary", "accent"],
+      mapping: ["primary", "secondary", "accent"],
+      control: "select",
     },
     width: {
-      control: 'number',
+      control: "number",
     },
     height: {
-      control: 'number',
+      control: "number",
     },
   },
 };
 
 export const Default = (props: IconProps) => (
-  <div style={{ display: 'flex', gap: '20px' }}>
+  <div style={{ display: "flex", gap: "20px" }}>
     <CheckIcon {...props} />
     <ArrowDownIcon {...props} />
   </div>

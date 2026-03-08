@@ -1,7 +1,7 @@
-import React from 'react'
-import classes from './AccountPage.module.scss'
-import Text from '@/components/Text'
-import * as motion from 'motion/react-client'
+import React from "react";
+import classes from "./AccountPage.module.scss";
+import Text from "@/components/Text";
+import * as motion from "motion/react-client";
 
 const AccountLayout = ({
   children,
@@ -20,7 +20,7 @@ const AccountLayout = ({
       </Text>
       {children}
     </motion.div>
-  )
-}
+  );
+};
 
-export default AccountLayout
+export default AccountLayout;

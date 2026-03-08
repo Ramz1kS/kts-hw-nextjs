@@ -1,11 +1,11 @@
-export type pageName = 'Products' | 'Categories' | 'About us';
-export type SortByType = 'price' | 'rating' | 'none'
-export type SortHowType = 'asc' | 'desc'
+export type pageName = "Products" | "Categories" | "About us";
+export type SortByType = "price" | "rating" | "none";
+export type SortHowType = "asc" | "desc";
 
 export type Option = {
-    key: string,
-    name: string
-}
+  key: string;
+  name: string;
+};
 
 export type NavItem = {
   name: pageName;
@@ -27,9 +27,9 @@ export type ErrorInfo = {
 };
 
 type ProductImageData = {
-    id: number;
-    url: string;
-}
+  id: number;
+  url: string;
+};
 
 export type ProductImage = {
   id: number;
@@ -92,19 +92,19 @@ export type ProductsListStoreInitData = {
   currPage: number;
   maxPage: number;
   filtersCategory: CategoryData[];
-}
+};
 
 export type ProductListQuery = {
-    page: string | undefined,
-    searchQuery: string | undefined,
-    inStockOnly: string | undefined,
-    categories: string | undefined,
-    sortBy: string | undefined,
-    sortHow: string | undefined
-}
+  page: string | undefined;
+  searchQuery: string | undefined;
+  inStockOnly: string | undefined;
+  categories: string | undefined;
+  sortBy: string | undefined;
+  sortHow: string | undefined;
+};
 
 export type LoadingInfo = {
-    isLoading: boolean
-    isError: boolean
-    errorCode: string
-}
+  isLoading: boolean;
+  isError: boolean;
+  errorCode: string;
+};

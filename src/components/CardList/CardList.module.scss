@@ -13,21 +13,21 @@
   }
 
   &__price {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
 
-&__price_current {
-  word-break: break-all;
-}
+  &__price_current {
+    word-break: break-all;
+  }
 
-&__price_old {
-  word-break: break-all;
-  text-decoration: line-through;
-}
+  &__price_old {
+    word-break: break-all;
+    text-decoration: line-through;
+  }
 
-&__link-wrapper {
+  &__link-wrapper {
     height: 100%;
-}
+  }
 }

@@ -7,7 +7,7 @@ type UseStrictContextParams<T> = {
 
 export const useStrictContext = <T>({
   context,
-  message = 'useStrictContext missing provider'
+  message = "useStrictContext missing provider",
 }: UseStrictContextParams<T>): T => {
   const value = React.useContext(context);
   if (value === null) {

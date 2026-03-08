@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import Input from '@components/Input';
-import classes from './MultiDropdown.module.scss';
-import classNames from 'classnames';
-import Text from '@components/Text';
-import ArrowDownIcon from '@components/icons/ArrowDownIcon';
-import { type CategoryData } from '@shared/types';
-import { observer } from 'mobx-react-lite';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from "react";
+import Input from "@components/Input";
+import classes from "./MultiDropdown.module.scss";
+import classNames from "classnames";
+import Text from "@components/Text";
+import ArrowDownIcon from "@components/icons/ArrowDownIcon";
+import { type CategoryData } from "@shared/types";
+import { observer } from "mobx-react-lite";
+import { motion } from "framer-motion";
 
 type DropdownOptionProps = {
   optionKey: number;
@@ -17,7 +17,12 @@ type DropdownOptionProps = {
   onClick: () => void;
 };
 
-const DropdownOption: React.FC<DropdownOptionProps> = ({ optionKey, name, selected, onClick }) => {
+const DropdownOption: React.FC<DropdownOptionProps> = ({
+  optionKey,
+  name,
+  selected,
+  onClick,
+}) => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -32,7 +37,7 @@ const DropdownOption: React.FC<DropdownOptionProps> = ({ optionKey, name, select
         tag="p"
         view="p-16"
         weight="normal"
-        color={selected ? 'accent' : hovered ? 'secondary' : 'primary'}
+        color={selected ? "accent" : hovered ? "secondary" : "primary"}
       >
         {name}
       </Text>
@@ -57,7 +62,7 @@ export type MultiDropdownProps = {
 
 const MultiDropdown: React.FC<MultiDropdownProps> = observer(
   ({ className, options, value, onChange, disabled, getTitle }) => {
-    const [filter, setFilter] = useState('');
+    const [filter, setFilter] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -76,15 +81,18 @@ const MultiDropdown: React.FC<MultiDropdownProps> = observer(
     };
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
-          setFilter('');
+          setFilter("");
           setIsTyping(false);
         }
       };
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
       return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener("mousedown", handleClickOutside);
       };
     }, []);
 
@@ -102,15 +110,15 @@ const MultiDropdown: React.FC<MultiDropdownProps> = observer(
     };
 
     const filteredOptions = options.filter((option) =>
-      option.title.toLowerCase().includes(filter.toLowerCase())
+      option.title.toLowerCase().includes(filter.toLowerCase()),
     );
     let displayValue;
     if (isTyping) {
       displayValue = filter;
     } else {
-      displayValue = value.length > 0 ? getTitle(value) : '';
+      displayValue = value.length > 0 ? getTitle(value) : "";
     }
-    const placeholder = value.length === 0 ? getTitle(value) : '';
+    const placeholder = value.length === 0 ? getTitle(value) : "";
     return (
       <div className={dropdownClassName} ref={containerRef}>
         <Input
@@ -145,7 +153,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = observer(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default MultiDropdown;

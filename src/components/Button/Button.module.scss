@@ -1,4 +1,4 @@
-@use '@styles/variables.scss' as *;
+@use "@styles/variables.scss" as *;
 
 .myBtn {
   padding: $space-s $space-l;
@@ -35,7 +35,7 @@
   }
 
   &:disabled {
-    cursor:not-allowed;
+    cursor: not-allowed;
     background-color: $button-primary-bg-disabled;
   }
 

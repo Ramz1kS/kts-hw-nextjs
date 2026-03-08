@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import classNames from 'classnames';
-import React, { useState } from 'react';
-import classes from './Card.module.scss';
-import Text from '@components/Text';
-import * as motion from 'motion/react-client';
-import ProductRating from '@components/ProductRating';
-import Image from 'next/image'
-import FavoriteButton from './FavoriteButton/FavoriteButton';
-import animConfig from '@/config/animConfig';
+import classNames from "classnames";
+import React from "react";
+import classes from "./Card.module.scss";
+import Text from "@components/Text";
+import * as motion from "motion/react-client";
+import ProductRating from "@components/ProductRating";
+import Image from "next/image";
+import FavoriteButton from "./FavoriteButton/FavoriteButton";
+import animConfig from "@/config/animConfig";
 
 export type CardProps = {
   className?: string;
@@ -40,14 +40,16 @@ const Card: React.FC<CardProps> = ({
   actionSlot,
   rating,
   isInStock,
-  id
+  id,
 }) => {
   const finalClassName = classNames(classes.card, className, {
-    [classes['card-notInStock']]: !isInStock
+    [classes["card-notInStock"]]: !isInStock,
   });
-  const onImageNotFound = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    console.log('Image not found');
-    e.currentTarget.src = '/no_img_found.png'
+  const onImageNotFound = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    console.log("Image not found");
+    e.currentTarget.src = "/no_img_found.png";
   };
   return (
     <motion.div
@@ -56,19 +58,22 @@ const Card: React.FC<CardProps> = ({
       whileHover={animConfig.generalWhileHover}
       transition={{ duration: 0.2 }}
     >
-        <FavoriteButton id={id}></FavoriteButton>
-        <div className={classes['card__image-wrapper']}>
-            <Image
-            className={classes.card__image}
-            onError={onImageNotFound}
-            fill
-            sizes=''
-            src={image ?? '/no_img_found.png'}
-            alt=""/>
-        </div>
-      <div className={classes['card__info-wrapper']}>
+      <FavoriteButton id={id}></FavoriteButton>
+      <div className={classes["card__image-wrapper"]}>
+        <Image
+          className={classes.card__image}
+          onError={onImageNotFound}
+          fill
+          sizes=""
+          src={image ?? "/no_img_found.png"}
+          alt=""
+        />
+      </div>
+      <div className={classes["card__info-wrapper"]}>
         <div className={classes.card__info}>
-          {rating !== undefined ? <ProductRating rating={rating}></ProductRating> : null}
+          {rating !== undefined ? (
+            <ProductRating rating={rating}></ProductRating>
+          ) : null}
           {<p className={classes.card__caption}>{captionSlot}</p>}
           <Text
             tag="p"
@@ -94,7 +99,15 @@ const Card: React.FC<CardProps> = ({
           <div className={classes.card__content}>{contentSlot}</div>
           {actionSlot}
         </div>
-        {!isInStock ? <Text className={classes['card__not-in-stock']} view='p-20' weight='bold'>Not in stock</Text> : null}
+        {!isInStock ? (
+          <Text
+            className={classes["card__not-in-stock"]}
+            view="p-20"
+            weight="bold"
+          >
+            Not in stock
+          </Text>
+        ) : null}
       </div>
     </motion.div>
   );
