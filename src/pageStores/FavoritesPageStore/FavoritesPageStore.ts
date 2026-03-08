@@ -13,6 +13,7 @@ export default class FavoritesPageStore {
   }
   currPage = 1
   pageSize = 9
+  maxPage = 1
 
   constructor(initialPage: number = 1) {
     this.currPage = initialPage
@@ -23,7 +24,7 @@ export default class FavoritesPageStore {
       currPage: observable,
       setPage: action.bound,
       loadProducts: action.bound,
-      maxPage: computed,
+      maxPage: observable,
     })
   }
 
@@ -58,6 +59,7 @@ export default class FavoritesPageStore {
 
       runInAction(() => {
         this.products = data.data
+        this.maxPage = data.meta.pagination.pageCount
       })
     } catch (e) {
       runInAction(() => {
@@ -69,9 +71,5 @@ export default class FavoritesPageStore {
         this.loadingInfo.isLoading = false
       })
     }
-  }
-
-  get maxPage() {
-    return Math.ceil(this.totalCount / this.pageSize)
   }
 }

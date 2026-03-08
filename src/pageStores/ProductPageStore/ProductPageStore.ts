@@ -37,7 +37,6 @@ export class ProductPageStore {
             if (!res.ok) {
                 throw new Error(res.status.toString())
             }
-
             const [product, productsRelated] = await Promise.all([res.json(), resRelated.json()])
             return {product, productsRelated, loadingInfo}
         } catch (e) {

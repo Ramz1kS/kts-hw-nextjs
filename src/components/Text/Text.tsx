@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classes from './Text.module.scss';
 import classNames from 'classnames';
+import { Roboto } from 'next/font/google'
 
 export type TextProps = {
   /** Дополнительный класс */

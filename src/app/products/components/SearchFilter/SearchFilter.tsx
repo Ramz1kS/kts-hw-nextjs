@@ -25,7 +25,7 @@ const SearchFilter: React.FC = observer(() => {
 
   const setUrlParams = () => {
     const params = pageStore.getURLSearchParams()
-    router.replace(`${pathname}?${params.toString()}/`);
+    router.replace(`${pathname}?${params.toString()}`);
   }
 
   const resetFilters = () => {

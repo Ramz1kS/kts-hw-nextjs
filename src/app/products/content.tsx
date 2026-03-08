@@ -19,7 +19,7 @@ const ProductsPageContent = observer(() => {
   const usePath = usePathname()
   const setCurrPage = (val: number) => {
     store.setPage(val)
-    router.replace(`${usePath}?${store.getURLSearchParams()}/`)
+    router.replace(`${usePath}?${store.getURLSearchParams()}`)
   }
   return (
     <div className={classes['products-page']}>
