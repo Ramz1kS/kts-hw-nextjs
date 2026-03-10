@@ -20,7 +20,7 @@ const CartPageContent = observer(() => {
 
   useEffect(() => {
     pageStore.loadProducts(cartStore.productIds);
-  }, [cartStore.productIds]);
+  }, [cartStore.isHydrated]);
 
   const setCurrPage = (page: number) => {
     const params = new URLSearchParams();
@@ -48,7 +48,10 @@ const CartPageContent = observer(() => {
       <CardList
         products={pageStore.paginatedProducts}
         buttonText="Remove"
-        onButtonClick={(product) => cartStore.removeProductId(product.id)}
+        onButtonClick={(product) => {
+          cartStore.removeProductId(product.id);
+          pageStore.removeProductId(product.id);
+        }}
       />
       {pageStore.maxPage > 1 && (
         <Paginator

@@ -151,9 +151,7 @@ export default class ProductListStore {
     return new ProductListStore(initData, initQuery);
   }
 
-  static async getInitData(
-    params: ProductListQuery,
-  ): Promise<{
+  static async getInitData(params: ProductListQuery): Promise<{
     data: ProductsListStoreInitData | undefined;
     isError: boolean;
     errorCode: string;

@@ -20,7 +20,13 @@ const FavoritesPageContent = observer(() => {
 
   useEffect(() => {
     pageStore.loadProducts(favoritesStore.productIds);
-  }, [favoritesStore.productIds]);
+  }, [favoritesStore.isHydrated]);
+
+  useEffect(() => {
+    if (pageStore.currPage > pageStore.maxPage && pageStore.maxPage > 0) {
+      setCurrPage(pageStore.maxPage);
+    }
+  }, [pageStore.currPage, pageStore.maxPage]);
 
   const setCurrPage = (page: number) => {
     const params = new URLSearchParams();
@@ -46,7 +52,7 @@ const FavoritesPageContent = observer(() => {
         Count: {favoritesStore.count}
       </Text>
       <CardList
-        products={pageStore.products}
+        products={pageStore.paginatedProducts}
         buttonText="Add to Cart"
         onButtonClick={(product) => cartStore.addProductId(product.id)}
       />

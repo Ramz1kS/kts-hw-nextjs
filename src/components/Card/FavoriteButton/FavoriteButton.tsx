@@ -7,6 +7,7 @@ import { useRootStore } from "@/hooks/useRootStore";
 import { observer } from "mobx-react-lite";
 import { motion } from "framer-motion";
 import animConfig from "@/config/animConfig";
+import { useFavoritesPageStore } from "@/hooks/useFavoritesPageStore";
 
 type FavoriteButtonProps = {
   id: number;
@@ -30,7 +31,7 @@ const FavoriteButton = observer(({ id }: FavoriteButtonProps) => {
         width={45}
         height={45}
         src={
-          favoritesStore.productIds.includes(id)
+          favoritesStore.productIds.has(id)
             ? "./heart_liked.svg"
             : "./heart.svg"
         }

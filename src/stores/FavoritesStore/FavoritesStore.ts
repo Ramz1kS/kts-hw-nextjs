@@ -11,7 +11,7 @@ import RootStore from "../RootStore";
 const E_COMMERSE_STORAGE_NAME = "ecommerse_favorites";
 
 class FavoritesStore {
-  productIds: number[] = [];
+  productIds = observable.set<number>([]);
   isHydrated = false;
 
   rootStore: RootStore;
@@ -19,18 +19,16 @@ class FavoritesStore {
   constructor(root: RootStore) {
     this.rootStore = root;
     makeObservable(this, {
-      productIds: observable,
       isHydrated: observable,
       toggleProduct: action.bound,
       removeProductId: action.bound,
       addProductId: action.bound,
-      includes: action.bound,
       clear: action.bound,
       hydrate: action.bound,
       count: computed,
     });
     reaction(
-      () => this.productIds.slice(),
+      () => Array.from(this.productIds),
       (ids) => {
         localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(ids));
       },
@@ -41,40 +39,37 @@ class FavoritesStore {
     const saved = localStorage.getItem(E_COMMERSE_STORAGE_NAME);
     if (saved) {
       try {
-        this.productIds = JSON.parse(saved);
+        const ids = JSON.parse(saved);
+        this.productIds.replace(ids);
       } catch {
-        this.productIds = [];
+        this.productIds = observable.set<number>([]);
       }
     }
     this.isHydrated = true;
   }
 
   toggleProduct(id: number) {
-    if (this.productIds.includes(id)) {
+    if (this.productIds.has(id)) {
       this.removeProductId(id);
     } else {
       this.addProductId(id);
     }
   }
 
-  includes(id: number) {
-    return this.productIds.includes(id);
-  }
-
   addProductId(id: number) {
-    this.productIds.push(id);
+    this.productIds.add(id);
   }
 
   removeProductId(id: number) {
-    const index = this.productIds.indexOf(id);
+    this.productIds.delete(id);
   }
 
   clear() {
-    this.productIds = [];
+    this.productIds = observable.set<number>([]);
   }
 
   get count() {
-    return this.productIds.length;
+    return this.productIds.size;
   }
 }
 
