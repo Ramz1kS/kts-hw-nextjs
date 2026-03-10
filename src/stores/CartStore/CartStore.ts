@@ -13,8 +13,8 @@ import apiPaths from "@/config/apiRoutes";
 const E_COMMERSE_STORAGE_NAME = "ecommerse_cart";
 
 class CartStore {
-  productIds: number[] = [];
-  products: ProductData[] = [];
+  productIds: Map<number, number> = new Map<number, number>()
+  products: Map<number, ProductData> = new Map<number, ProductData>();
   loadingInfo: LoadingInfo = {
     isLoading: false,
     isError: false,
@@ -41,7 +41,7 @@ class CartStore {
     });
 
     reaction(
-      () => this.productIds.slice(),
+      () => this.productIds,
       (ids) => {
         localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(ids));
       },
@@ -54,35 +54,35 @@ class CartStore {
       try {
         this.productIds = JSON.parse(saved);
       } catch {
-        this.productIds = [];
+        this.productIds = new Map<number, number>();
       }
     }
     this.isHydrated = true;
   }
 
   addProductId(id: number) {
-    this.productIds.push(id);
+    this.productIds.set(id, (this.productIds.get(id) || 0));
   }
 
   removeProductId(id: number) {
-    const index = this.productIds.indexOf(id);
-    if (index > -1) {
-      this.productIds.splice(index, 1);
-    }
-    const productIndex = this.products.findIndex((p) => p.id === id);
-    if (productIndex > -1) {
-      this.products.splice(productIndex, 1);
-    }
+    this.productIds.delete(id);
+    // const index = this.productIds.indexOf(id);
+    // if (index > -1) {
+    //   this.productIds.splice(index, 1);
+    // }
+    // const productIndex = this.products.findIndex((p) => p.id === id);
+    // if (productIndex > -1) {
+    //   this.products.splice(productIndex, 1);
+    // }
   }
 
   clear() {
-    this.productIds = [];
-    this.products = [];
+    this.productIds
   }
 
   async loadProducts() {
-    if (this.productIds.length === 0) {
-      this.products = [];
+    if (Object.keys(this.productIds).length == 0) {
+      this.products = new Map<number, ProductData>;
       this.loadingInfo.isLoading = false;
       return;
     }
@@ -90,7 +90,7 @@ class CartStore {
     this.loadingInfo.isLoading = true;
 
     try {
-      const uniqueIds = [...new Set(this.productIds)];
+      const uniqueIds = [...this.productIds.keys()];
       const res = await fetch(apiPaths.getProductsByIds(uniqueIds));
 
       if (!res.ok) {
@@ -100,24 +100,8 @@ class CartStore {
       const data: ListResponse = await res.json();
 
       runInAction(() => {
-        this.products = data.data;
-        const idCount: { [key: number]: number } = {};
-        for (let i = 0; i < this.productIds.length; i++) {
-          const id = this.productIds[i];
-          if (idCount[id]) {
-            idCount[id]++;
-          } else {
-            idCount[id] = 1;
-          }
-        }
-        const keys = Object.keys(idCount);
-        for (let j: number = 0; j < keys.length; j++) {
-          const infoToDuplicate = this.products.find(
-            (p) => p.id === parseInt(keys[j], 10),
-          ) as ProductData;
-
-          for (let i = 1; i < idCount[parseInt(keys[j], 10)]; i++)
-            this.products.push({ ...infoToDuplicate });
+        for (let i = 0; i < data.data.length; i++) {
+          this.products.set(data.data[i].id, data.data[i]);
         }
       });
     } catch (e) {
@@ -133,11 +117,11 @@ class CartStore {
   }
 
   get count() {
-    return this.productIds.length;
+    return this.productIds.keys().reduce((acc, id) => acc + (this.productIds.get(id) || 0), 0);
   }
 
   get price() {
-    return this.products.reduce((total, product) => total + product.price, 0);
+    return this.productIds.keys().reduce((acc, id) => acc + (this.productIds.get(id) || 0) * (this.products.get(id)?.price || 0), 0);
   }
 }
 

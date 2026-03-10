@@ -13,8 +13,7 @@ import apiPaths from "@/config/apiRoutes";
 const E_COMMERSE_STORAGE_NAME = "ecommerse_favorites";
 
 class FavoritesStore {
-  productIds: number[] = [];
-  products: ProductData[] = [];
+  productIds: Set<number> = new Set<number>()
   loadingInfo: LoadingInfo = {
     isLoading: false,
     isError: false,
@@ -28,7 +27,6 @@ class FavoritesStore {
     this.rootStore = root;
     makeObservable(this, {
       productIds: observable,
-      products: observable,
       loadingInfo: observable,
       isHydrated: observable,
       toggleProduct: action.bound,
@@ -36,12 +34,11 @@ class FavoritesStore {
       addProductId: action.bound,
       includes: action.bound,
       clear: action.bound,
-      loadProducts: action.bound,
       hydrate: action.bound,
       count: computed,
     });
     reaction(
-      () => this.productIds.slice(),
+      () => this.productIds,
       (ids) => {
         localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(ids));
       },
@@ -54,14 +51,14 @@ class FavoritesStore {
       try {
         this.productIds = JSON.parse(saved);
       } catch {
-        this.productIds = [];
+        this.productIds = new Set<number>();
       }
     }
     this.isHydrated = true;
   }
 
   toggleProduct(id: number) {
-    if (this.productIds.includes(id)) {
+    if (this.productIds.has(id)) {
       this.removeProductId(id);
     } else {
       this.addProductId(id);
@@ -69,62 +66,23 @@ class FavoritesStore {
   }
 
   includes(id: number) {
-    return this.productIds.includes(id);
+    return this.productIds.has(id);
   }
 
   addProductId(id: number) {
-    this.productIds.push(id);
+    this.productIds.add(id);
   }
 
   removeProductId(id: number) {
-    const index = this.productIds.indexOf(id);
-    if (index > -1) {
-      this.products = this.products.filter((item) => item.id !== id);
-      this.productIds.splice(index, 1);
-    }
+    this.productIds.delete(id);
   }
 
   clear() {
-    this.productIds = [];
-    this.products = [];
-  }
-
-  async loadProducts() {
-    if (this.productIds.length === 0) {
-      this.products = [];
-      this.loadingInfo.isLoading = false;
-      return;
-    }
-
-    this.loadingInfo.isLoading = true;
-
-    try {
-      const uniqueIds = [...new Set(this.productIds)];
-      const res = await fetch(apiPaths.getProductsByIds(uniqueIds));
-
-      if (!res.ok) {
-        throw new Error(res.status.toString());
-      }
-
-      const data: ListResponse = await res.json();
-
-      runInAction(() => {
-        this.products = data.data;
-      });
-    } catch (e) {
-      runInAction(() => {
-        this.loadingInfo.isError = true;
-        this.loadingInfo.errorCode = e instanceof Error ? e.message : "200";
-      });
-    } finally {
-      runInAction(() => {
-        this.loadingInfo.isLoading = false;
-      });
-    }
+    this.productIds = new Set<number>();
   }
 
   get count() {
-    return this.productIds.length;
+    return this.productIds.size;
   }
 }
 
