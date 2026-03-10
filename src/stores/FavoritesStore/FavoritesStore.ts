@@ -6,19 +6,12 @@ import {
   reaction,
   runInAction,
 } from "mobx";
-import type { ListResponse, LoadingInfo, ProductData } from "@shared/types";
 import RootStore from "../RootStore";
-import apiPaths from "@/config/apiRoutes";
 
 const E_COMMERSE_STORAGE_NAME = "ecommerse_favorites";
 
 class FavoritesStore {
   productIds: number[] = [];
-  loadingInfo: LoadingInfo = {
-    isLoading: false,
-    isError: false,
-    errorCode: "",
-  };
   isHydrated = false;
 
   rootStore: RootStore;
@@ -27,7 +20,6 @@ class FavoritesStore {
     this.rootStore = root;
     makeObservable(this, {
       productIds: observable,
-      loadingInfo: observable,
       isHydrated: observable,
       toggleProduct: action.bound,
       removeProductId: action.bound,
