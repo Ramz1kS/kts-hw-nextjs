@@ -10,7 +10,7 @@ import apiPaths from "@/config/apiRoutes";
 import type { ListResponse } from "@shared/types";
 
 export default class CartPageStore {
-  products: ProductData[] = [];
+  allProducts: Map<number, { data: ProductData; count: number }> = new Map();
   loadingInfo: LoadingInfo = {
     isLoading: false,
     isError: false,
@@ -22,14 +22,16 @@ export default class CartPageStore {
   constructor(initialPage: number = 1) {
     this.currPage = initialPage;
     makeObservable(this, {
-      products: observable,
+      allProducts: observable,
       loadingInfo: observable,
       currPage: observable,
       setPage: action.bound,
       loadProducts: action.bound,
-      paginatedProducts: computed,
+      removeProductId: action.bound,
       maxPage: computed,
       price: computed,
+      paginatedProducts: computed,
+      totalCount: computed,
     });
   }
 
@@ -37,9 +39,9 @@ export default class CartPageStore {
     this.currPage = page;
   }
 
-  async loadProducts(productIds: number[]) {
-    if (productIds.length === 0) {
-      this.products = [];
+  async loadProducts(productIdsMap: Map<number, number>) {
+    if (productIdsMap.size === 0) {
+      this.allProducts.clear();
       this.loadingInfo.isLoading = false;
       return;
     }
@@ -47,8 +49,7 @@ export default class CartPageStore {
     this.loadingInfo.isLoading = true;
 
     try {
-      const uniqueIds = [...new Set(productIds)];
-      // подгружаем сразу все товары, чтобы вычислить общую сумму товаров
+      const uniqueIds = Array.from(productIdsMap.keys());
       const res = await fetch(apiPaths.getProductsByIds(uniqueIds));
 
       if (!res.ok) {
@@ -58,25 +59,14 @@ export default class CartPageStore {
       const data: ListResponse = await res.json();
 
       runInAction(() => {
-        this.products = data.data;
-        const idCount: { [key: number]: number } = {};
-        for (let i = 0; i < productIds.length; i++) {
-          const id = productIds[i];
-          if (idCount[id]) {
-            idCount[id]++;
-          } else {
-            idCount[id] = 1;
-          }
-        }
-        const keys = Object.keys(idCount);
-        for (let j: number = 0; j < keys.length; j++) {
-          const infoToDuplicate = this.products.find(
-            (p) => p.id === parseInt(keys[j], 10),
-          ) as ProductData;
-
-          for (let i = 1; i < idCount[parseInt(keys[j], 10)]; i++)
-            this.products.push({ ...infoToDuplicate });
-        }
+        this.allProducts.clear();
+        data.data.forEach((product) => {
+          const count = productIdsMap.get(product.id) || 1;
+          this.allProducts.set(product.id, {
+            data: product,
+            count: count,
+          });
+        });
       });
     } catch (e) {
       runInAction(() => {
@@ -90,17 +80,50 @@ export default class CartPageStore {
     }
   }
 
+  removeProductId(id: number) {
+    const item = this.allProducts.get(id);
+    if (!item) return;
+    if (item.count > 1) {
+      this.allProducts.set(id, { data: item.data, count: item.count - 1 });
+    } else {
+      this.allProducts.delete(id);
+    }
+    const start = (this.currPage - 1) * this.pageSize;
+    const totalItems = this.totalCount;
+    if (start >= totalItems && this.currPage > 1) {
+      this.currPage -= 1;
+    }
+  }
+
+  get totalCount() {
+    return Array.from(this.allProducts.values()).reduce(
+      (sum, { count }) => sum + count,
+      0,
+    );
+  }
+
   get paginatedProducts() {
+    const allItems: ProductData[] = [];
+    this.allProducts.forEach(({ data, count }) => {
+      for (let i = 0; i < count; i++) {
+        allItems.push(data);
+      }
+    });
+
     const start = (this.currPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    return this.products.slice(start, end);
+    return allItems.slice(start, end);
   }
 
   get maxPage() {
-    return Math.ceil(this.products.length / this.pageSize);
+    return Math.ceil(this.totalCount / this.pageSize);
   }
 
   get price() {
-    return this.products.reduce((total, product) => total + product.price, 0);
+    let total = 0;
+    this.allProducts.forEach(({ data, count }) => {
+      total += data.price * count;
+    });
+    return total;
   }
 }

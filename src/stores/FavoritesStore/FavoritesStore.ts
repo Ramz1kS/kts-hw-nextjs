@@ -13,7 +13,7 @@ import apiPaths from "@/config/apiRoutes";
 const E_COMMERSE_STORAGE_NAME = "ecommerse_favorites";
 
 class FavoritesStore {
-  productIds: Set<number> = new Set<number>()
+  productIds = observable.set<number>([]);
   loadingInfo: LoadingInfo = {
     isLoading: false,
     isError: false,
@@ -26,19 +26,17 @@ class FavoritesStore {
   constructor(root: RootStore) {
     this.rootStore = root;
     makeObservable(this, {
-      productIds: observable,
       loadingInfo: observable,
       isHydrated: observable,
       toggleProduct: action.bound,
       removeProductId: action.bound,
       addProductId: action.bound,
-      includes: action.bound,
       clear: action.bound,
       hydrate: action.bound,
       count: computed,
     });
     reaction(
-      () => this.productIds,
+      () => Array.from(this.productIds),
       (ids) => {
         localStorage.setItem(E_COMMERSE_STORAGE_NAME, JSON.stringify(ids));
       },
@@ -49,9 +47,10 @@ class FavoritesStore {
     const saved = localStorage.getItem(E_COMMERSE_STORAGE_NAME);
     if (saved) {
       try {
-        this.productIds = JSON.parse(saved);
+        const ids = JSON.parse(saved);
+        this.productIds.replace(ids);
       } catch {
-        this.productIds = new Set<number>();
+        this.productIds = observable.set<number>([]);
       }
     }
     this.isHydrated = true;
@@ -65,10 +64,6 @@ class FavoritesStore {
     }
   }
 
-  includes(id: number) {
-    return this.productIds.has(id);
-  }
-
   addProductId(id: number) {
     this.productIds.add(id);
   }
@@ -78,7 +73,7 @@ class FavoritesStore {
   }
 
   clear() {
-    this.productIds = new Set<number>();
+    this.productIds = observable.set<number>([]);
   }
 
   get count() {
