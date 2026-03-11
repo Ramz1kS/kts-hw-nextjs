@@ -4,7 +4,6 @@ import {
   makeObservable,
   observable,
   reaction,
-  runInAction,
 } from "mobx";
 import RootStore from "../RootStore";
 

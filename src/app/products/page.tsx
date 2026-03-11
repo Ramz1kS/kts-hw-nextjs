@@ -5,6 +5,11 @@ import Text from "@/components/Text";
 import ProductsPageContent from "./content";
 import { ProductListQuery } from "@/shared/types";
 
+export const metadata = {
+  title: 'Products',
+  description: 'List of products of various categories',
+}
+
 export default async function ProductsLayout({
   searchParams,
 }: {

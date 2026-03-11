@@ -2,6 +2,11 @@ import React from "react";
 import { CartPageStoreContextProvider } from "@/context/CartPageStoreProvider";
 import CartPageContent from "./content";
 
+export const metadata = {
+  title: 'Cart',
+  description: 'List of products that were added to cart',
+}
+
 type CartPageQuery = {
   page?: string;
 };

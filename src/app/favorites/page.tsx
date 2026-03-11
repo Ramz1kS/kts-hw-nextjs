@@ -2,6 +2,11 @@ import React from "react";
 import { FavoritesPageStoreContextProvider } from "@/context/FavoritesPageStoreProvider";
 import FavoritesPageContent from "./content";
 
+export const metadata = {
+  title: 'Favorites',
+  description: 'List of your favorite products',
+}
+
 type FavoritesPageQuery = {
   page?: string;
 };

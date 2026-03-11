@@ -7,7 +7,6 @@ import { useRootStore } from "@/hooks/useRootStore";
 import { observer } from "mobx-react-lite";
 import { motion } from "framer-motion";
 import animConfig from "@/config/animConfig";
-import { useFavoritesPageStore } from "@/hooks/useFavoritesPageStore";
 
 type FavoriteButtonProps = {
   id: number;
