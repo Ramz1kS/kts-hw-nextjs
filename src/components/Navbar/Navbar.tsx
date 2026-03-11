@@ -10,9 +10,11 @@ import NavbarCartLink from "@components/Navbar/NavbarCartLink";
 import { usePathname } from "next/navigation";
 import { observer } from "mobx-react-lite";
 import NavbarFavoritesLink from "./NavbarFavoritesLink";
+import { useRootStore } from "@/hooks/useRootStore";
 
 const Navbar = observer(() => {
   const path = usePathname().split("/");
+  const { navbarStore } = useRootStore()
   return (
     <nav className={classes.navbar}>
       <Link href={navLalasiaLink}>
@@ -24,12 +26,12 @@ const Navbar = observer(() => {
           className={classes.navbar__logo}
         ></Image>
       </Link>
-      <button className={classes.navbar__burger}>
+      <button className={classes.navbar__burger}  onClick={navbarStore.toggleMenu}>
         <span></span>
         <span></span>
         <span></span>
       </button>
-      <div className={`${classes.navbar__buttons}`}>
+      <div className={`${classes.navbar__buttons} ${navbarStore.isMenuOpen ? classes.navbar__buttons_open : ''}`}>
         {navItemsCenter.map((item) => (
           <NavbarPageMiddleButton
             key={item.name}
