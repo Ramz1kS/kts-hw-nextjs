@@ -7,10 +7,15 @@ import Text from '@/components/Text'
 import { observer } from 'mobx-react-lite'
 import { useBuyPageStore } from '@/hooks/useBuyPageStore'
 import Button from '@/components/Button'
+import Link from 'next/link'
+import { successUrl } from '@/config/navConfig'
+import { useSearchParams } from 'next/navigation'
+import { useRootStore } from '@/hooks/useRootStore'
 
 const BuyForm = observer(() => {
   const buyPageStore = useBuyPageStore()
-
+  const searchParams = useSearchParams()
+  const { cartStore } = useRootStore()
   if (!buyPageStore.showForm) {
     return null
   }
@@ -48,7 +53,13 @@ const BuyForm = observer(() => {
           </div>
         </div>
       </div>
-      <Button oneLined onClick={() => alert('Order placed!')} disabled={!buyPageStore.isFormValid}>Confirm order</Button>
+      <Link href={successUrl}>
+        <Button oneLined onClick={() => {
+          if (searchParams.get('productId') === null) {
+            cartStore.clear()
+          }
+        }} disabled={!buyPageStore.isFormValid}>Confirm order</Button>
+      </Link>
     </div>
   )
 })
