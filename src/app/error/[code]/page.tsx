@@ -7,10 +7,10 @@ import Button from "@components/Button";
 import classes from "./ErrorPage.module.scss";
 import { useParams } from "next/navigation";
 
-export const metadata = {
-  title: 'Error!',
-  description: 'Could not find what you\'re looking for :('
-}
+// export const metadata = {
+//   title: 'Error!',
+//   description: 'Could not find what you\'re looking for :('
+// }
 
 export const ErrorPage = () => {
   const { code } = useParams();

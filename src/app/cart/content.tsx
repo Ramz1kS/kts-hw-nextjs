@@ -10,7 +10,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCartPageStore } from "@/hooks/useCartPageStore";
 import Loader from "@/components/Loader";
 import { redirect } from "next/navigation";
-import { errorLink } from "@/config/navConfig";
+import { buyURL, errorLink } from "@/config/navConfig";
+import Link from "next/link";
+import classes from "./Cart.module.scss";
+import Button from "@/components/Button";
 
 const CartPageContent = observer(() => {
   const pageStore = useCartPageStore();
@@ -42,9 +45,14 @@ const CartPageContent = observer(() => {
 
   return (
     <>
-      <Text view="title" tag="h2" weight="medium">
-        Total: ${pageStore.price}
-      </Text>
+      <div className={classes.total}>
+        <Text view="title" tag="h2" weight="medium">
+          Total: ${pageStore.price}
+        </Text>
+        <Link href={buyURL()}>
+          <Button oneLined>Checkout</Button>
+        </Link>
+      </div>
       <CardList
         products={pageStore.paginatedProducts}
         buttonText="Remove"

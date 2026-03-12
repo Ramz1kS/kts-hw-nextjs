@@ -9,6 +9,8 @@ import * as motion from "motion/react-client";
 import AddToCartButton from "./AddToCartButton";
 import ArrowLeftIcon from "@components/icons/ArrowLeftIcon";
 import { useProductPageStore } from "@/hooks/useProductPageStore";
+import Link from "next/link";
+import { buyURL } from "@/config/navConfig";
 
 function ProductInfo() {
   const product = useProductPageStore().data;
@@ -110,9 +112,11 @@ function ProductInfo() {
             </Text>
           </div>
           <div className={classes["product-info__buttons"]}>
-            <Button disabled={!product.isInStock} oneLined={true}>
-              {product.isInStock ? "Buy now" : "Not in stock"}
-            </Button>
+            <Link href={product.isInStock ? buyURL(product.id) : ''}>
+              <Button disabled={!product.isInStock} oneLined={true}>
+                {product.isInStock ? "Buy now" : "Not in stock"}
+              </Button>
+            </Link>
             <AddToCartButton id={product.id}></AddToCartButton>
           </div>
         </div>
