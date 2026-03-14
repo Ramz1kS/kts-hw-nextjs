@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useProductListPageStore } from "@/hooks/useProductListPageStore";
 import CardList from "@/components/CardList";
@@ -21,6 +21,10 @@ const ProductsPageContent = observer(() => {
     store.setPage(val);
     router.replace(`${usePath}?${store.getURLSearchParams()}`);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [store.currPage])
   return (
     <div className={classes["products-page"]}>
       <div className={classes.content}>

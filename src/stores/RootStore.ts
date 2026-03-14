@@ -1,19 +1,15 @@
 import CartStore from "./CartStore/CartStore";
-import { makeObservable, observable } from "mobx";
 import FavoritesStore from "./FavoritesStore/FavoritesStore";
-import NavbarStore from "./NavbarStore/NavbarStore";
 
 export default class RootStore {
-  cartStore: CartStore = new CartStore(this);
-  favoritesStore: FavoritesStore = new FavoritesStore(this);
-  navbarStore: NavbarStore = new NavbarStore(this)
+  cartStore: CartStore;
+  favoritesStore: FavoritesStore;
+
   constructor() {
-    makeObservable(this, {
-      cartStore: observable,
-      favoritesStore: observable,
-      navbarStore: observable
-    });
+    this.cartStore = new CartStore(this);
+    this.favoritesStore = new FavoritesStore(this);
   }
+
   hydrate() {
     this.cartStore.hydrate();
     this.favoritesStore.hydrate();

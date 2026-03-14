@@ -1,19 +1,18 @@
 import apiPaths from "@/config/apiRoutes";
+import { loadingDefaultInfo } from "@/config/defaults";
 import { LoadingInfo, ProductData } from "@/shared/types";
 import { makeObservable, observable } from "mobx";
 
+export const RELATED_COUNT = 3;
+
 export class ProductPageStore {
-  data: ProductData;
+  data: ProductData | null;
   relatedData: ProductData[] = [];
-  loadingInfo: LoadingInfo = {
-    isLoading: false,
-    isError: false,
-    errorCode: "",
-  };
+  loadingInfo: LoadingInfo = loadingDefaultInfo;
 
   constructor(
     initData: ProductData,
-    initRelatedData: ProductData[] | undefined,
+    initRelatedData?: ProductData[] ,
     loadingInfo?: LoadingInfo,
   ) {
     this.data = initData;
@@ -36,7 +35,7 @@ export class ProductPageStore {
     try {
       const [res, resRelated] = await Promise.all([
         fetch(apiPaths.getProductURL(documentId)),
-        fetch(`${apiPaths.products}&pagination[pageSize]=3`),
+        fetch(`${apiPaths.products}&pagination[pageSize]=${RELATED_COUNT}`),
       ]);
 
       if (!res.ok) {
@@ -49,9 +48,9 @@ export class ProductPageStore {
       return { product, productsRelated, loadingInfo };
     } catch (e) {
       loadingInfo.isError = true;
-      loadingInfo.errorCode = e instanceof Error ? e.message : "200";
+      loadingInfo.errorCode = e instanceof Error ? e.message : "Unknown error";
       return {
-        product: { data: {} as ProductData },
+        product: null,
         productsRelated: { data: [] },
         loadingInfo,
       };

@@ -142,7 +142,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = observer(
           >
             {filteredOptions.map((option, index) => (
               <DropdownOption
-                key={index}
+                key={option.id}
                 optionKey={option.id}
                 name={option.title}
                 selected={selectedKeys.has(option.id)}

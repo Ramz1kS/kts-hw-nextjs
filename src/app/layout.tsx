@@ -22,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body className={roboto.className}>
         <RootStoreProvider>

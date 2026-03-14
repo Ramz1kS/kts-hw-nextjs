@@ -11,9 +11,11 @@ import ArrowLeftIcon from "@components/icons/ArrowLeftIcon";
 import { useProductPageStore } from "@/hooks/useProductPageStore";
 import Link from "next/link";
 import { buyURL } from "@/config/navConfig";
+import { redirect } from "next/navigation";
 
 function ProductInfo() {
   const product = useProductPageStore().data;
+  if (!product) redirect("/error/404");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const hasMultipleImages = product.images.length > 1;
   const nextImage = () => {
@@ -33,9 +35,12 @@ function ProductInfo() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
       >
+        {/* fill здесь для того, чтобы картинка полностью заняла родительский div, который имеет анимацию. родительский div */}
+        {/* родительский div также имеет адаптивную вёртску и меняет размеры */}
         <Image
           className={classes["product-info__image"]}
           fill
+          sizes="(max-width: 450px) 300px, (max-width: 600px) 450px, 600px"
           src={
             product.images.length == 0
               ? ""

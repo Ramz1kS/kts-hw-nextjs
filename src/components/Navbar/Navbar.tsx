@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import classes from "./Navbar.module.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,7 +14,7 @@ import { useRootStore } from "@/hooks/useRootStore";
 
 const Navbar = observer(() => {
   const path = usePathname().split("/");
-  const { navbarStore } = useRootStore()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   return (
     <nav className={classes.navbar}>
       <Link href={navLalasiaLink}>
@@ -26,12 +26,12 @@ const Navbar = observer(() => {
           className={classes.navbar__logo}
         ></Image>
       </Link>
-      <button className={classes.navbar__burger}  onClick={navbarStore.toggleMenu}>
+      <button className={classes.navbar__burger}  onClick={() => setIsMenuOpen((prev) => !prev)}>
         <span></span>
         <span></span>
         <span></span>
       </button>
-      <div className={`${classes.navbar__buttons} ${navbarStore.isMenuOpen ? classes.navbar__buttons_open : ''}`}>
+      <div className={`${classes.navbar__buttons} ${isMenuOpen ? classes.navbar__buttons_open : ''}`}>
         {navItemsCenter.map((item) => (
           <NavbarPageMiddleButton
             key={item.name}

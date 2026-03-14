@@ -59,16 +59,14 @@ const Card: React.FC<CardProps> = ({
       transition={{ duration: 0.2 }}
     >
       <FavoriteButton id={id}></FavoriteButton>
-      <div className={classes["card__image-wrapper"]}>
         <Image
           className={classes.card__image}
           onError={onImageNotFound}
-          fill
-          sizes=""
+          width={350}
+          height={350}
           src={image ?? "/no_img_found.png"}
           alt=""
         />
-      </div>
       <div className={classes["card__info-wrapper"]}>
         <div className={classes.card__info}>
           {rating !== undefined ? (

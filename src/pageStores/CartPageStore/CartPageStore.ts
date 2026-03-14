@@ -6,16 +6,12 @@ import {
   observable,
   runInAction,
 } from "mobx";
-import apiPaths from "@/config/apiRoutes";
-import type { ListResponse } from "@shared/types";
+import { loadingDefaultInfo } from "@/config/defaults";
+import { loadProductsByIds } from "@/shared/productLoader";
 
 export default class CartPageStore {
   allProducts: Map<number, { data: ProductData; count: number }> = new Map();
-  loadingInfo: LoadingInfo = {
-    isLoading: false,
-    isError: false,
-    errorCode: "",
-  };
+  loadingInfo: LoadingInfo = loadingDefaultInfo;
   currPage = 1;
   pageSize = 9;
 
@@ -50,17 +46,11 @@ export default class CartPageStore {
 
     try {
       const uniqueIds = Array.from(productIdsMap.keys());
-      const res = await fetch(apiPaths.getProductsByIds(uniqueIds));
-
-      if (!res.ok) {
-        throw new Error(res.status.toString());
-      }
-
-      const data: ListResponse = await res.json();
+      const products = await loadProductsByIds(uniqueIds);
 
       runInAction(() => {
         this.allProducts.clear();
-        data.data.forEach((product) => {
+        products.forEach((product) => {
           const count = productIdsMap.get(product.id) || 1;
           this.allProducts.set(product.id, {
             data: product,

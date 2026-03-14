@@ -22,7 +22,6 @@ class FavoritesStore {
       toggleProduct: action.bound,
       removeProductId: action.bound,
       addProductId: action.bound,
-      clear: action.bound,
       hydrate: action.bound,
       count: computed,
     });
@@ -41,7 +40,7 @@ class FavoritesStore {
         const ids = JSON.parse(saved);
         this.productIds.replace(ids);
       } catch {
-        this.productIds = observable.set<number>([]);
+        this.productIds.clear();
       }
     }
     this.isHydrated = true;
@@ -61,10 +60,6 @@ class FavoritesStore {
 
   removeProductId(id: number) {
     this.productIds.delete(id);
-  }
-
-  clear() {
-    this.productIds = observable.set<number>([]);
   }
 
   get count() {

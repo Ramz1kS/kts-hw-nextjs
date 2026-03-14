@@ -11,6 +11,7 @@ import { useProductListPageStore } from "@/hooks/useProductListPageStore";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import OptionSelector from "@/components/OptionSelector/OptionSelector";
+import { sortBy, sortHow } from "@/config/sortConfig";
 
 const SearchFilter: React.FC = observer(() => {
   const router = useRouter();
@@ -71,13 +72,13 @@ const SearchFilter: React.FC = observer(() => {
         </div>
         <OptionSelector
           name="Sort by"
-          options={pageStore.sortBy}
+          options={sortBy}
           selected={pageStore.selectedSortBy}
           setSelected={pageStore.setSortBy}
         ></OptionSelector>
         <OptionSelector
           name="Sort how"
-          options={pageStore.sortHow}
+          options={sortHow}
           selected={pageStore.selectedSortHow}
           setSelected={pageStore.setSortHow}
         ></OptionSelector>

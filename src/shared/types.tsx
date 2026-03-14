@@ -1,4 +1,16 @@
 export type pageName = "Products" | "Categories" | "About us";
+
+export enum SortBy {
+  PRICE = "price",
+  RATING = "rating",
+  NONE = "none"
+}
+
+export enum SortHow {
+  ASC = "asc",
+  DESC = "desc"
+}
+
 export type SortByType = "price" | "rating" | "none";
 export type SortHowType = "asc" | "desc";
 

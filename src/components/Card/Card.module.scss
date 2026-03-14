@@ -21,13 +21,6 @@
     opacity: 0.5;
   }
 
-  &__image-wrapper {
-    position: relative;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-  }
-
   &__image {
     object-fit: cover;
     background-color: #d9d9d9;

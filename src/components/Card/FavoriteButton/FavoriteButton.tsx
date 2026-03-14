@@ -14,11 +14,20 @@ type FavoriteButtonProps = {
 
 const FavoriteButton = observer(({ id }: FavoriteButtonProps) => {
   const { favoritesStore } = useRootStore();
-  const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     favoritesStore.toggleProduct(id);
   };
+
   return (
     <motion.button
       onClick={onClick}
@@ -31,8 +40,8 @@ const FavoriteButton = observer(({ id }: FavoriteButtonProps) => {
         height={45}
         src={
           favoritesStore.productIds.has(id)
-            ? "./heart_liked.svg"
-            : "./heart.svg"
+            ? "/heart_liked.svg"
+            : "/heart.svg"
         }
         alt="favorites_add"
       />
