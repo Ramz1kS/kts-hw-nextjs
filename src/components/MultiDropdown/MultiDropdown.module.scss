@@ -1,0 +1,29 @@
+@use "@styles/variables.scss" as *;
+
+.optionContainer {
+  padding: $space-s $space-xs;
+  background-color: $option-background;
+}
+
+.optionContainer:hover {
+  color: $text-secondary;
+}
+
+.dropdownContainer {
+  position: relative;
+  width: 362px;
+}
+
+.arrowDownIcon {
+  position: absolute;
+  right: 20px;
+  top: 30%;
+}
+
+.dropdownOptionsContainer {
+  position: absolute;
+  z-index: 9;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  top: 60px;
+}

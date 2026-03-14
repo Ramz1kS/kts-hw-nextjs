@@ -1,0 +1,15 @@
+.arrowButton {
+  background-color: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.forward {
+  transform: scale(-1);
+}
+
+.disabled {
+  cursor: default;
+  opacity: 50%;
+}

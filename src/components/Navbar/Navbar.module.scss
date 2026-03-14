@@ -1,0 +1,86 @@
+@use "@styles/variables.scss" as *;
+
+.navbar {
+  height: 90px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid $navbar-border;
+  background-color: $navbar-bg;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+
+  @media screen and (max-width: 600px) {
+    position: relative fixed;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+
+  &__logo {
+    @media screen and (max-width: 600px) {
+      display: block;
+    }
+  }
+
+  &__burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+
+    @media screen and (max-width: 600px) {
+      display: flex;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    span {
+      width: 25px;
+      height: 3px;
+      background-color: $text-primary;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    gap: $space-xl * 2;
+
+    @media screen and (max-width: 600px) {
+      position: fixed;
+      top: 90px;
+      left: 0;
+      width: 100%;
+      flex-direction: column;
+      background-color: $navbar-bg;
+      border-bottom: 1px solid $navbar-border;
+      padding: 20px 0;
+      gap: 0;
+      height: auto;
+      display: none;
+
+      &_open {
+        display: flex;
+      }
+    }
+  }
+
+  &__buttons-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    gap: $space-l * 2;
+
+    @media screen and (max-width: 600px) {
+      gap: $space-xs;
+    }
+  }
+}

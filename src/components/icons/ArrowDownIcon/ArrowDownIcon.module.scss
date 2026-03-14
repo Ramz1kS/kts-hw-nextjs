@@ -1,0 +1,17 @@
+@use "@styles/variables.scss" as *;
+
+.inherit {
+  fill: inherit;
+}
+
+.primary {
+  fill: $text-primary;
+}
+
+.secondary {
+  fill: $text-secondary;
+}
+
+.accent {
+  fill: $text-accent;
+}

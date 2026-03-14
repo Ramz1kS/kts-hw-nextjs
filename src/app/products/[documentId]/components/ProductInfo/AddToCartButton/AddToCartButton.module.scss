@@ -1,0 +1,11 @@
+@use "@styles/variables.scss" as *;
+
+.product-info__button_cart {
+  background-color: $button-cart-primary-bg;
+  border: 1px solid $button-cart-primary-border;
+  color: $text-primary;
+
+  &:hover {
+    background-color: $button-cart-hover-bg;
+  }
+}

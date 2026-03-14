@@ -1,0 +1,20 @@
+@use "@styles/variables.scss" as *;
+
+.myInput {
+  width: 100%;
+  height: 52px;
+  padding: $space-s $space-xs;
+  border: none;
+  font-size: $space-m;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.myInput:focus {
+  border: 1px solid $text-accent;
+  outline: none;
+}
+
+.myInput::placeholder {
+  color: $input-placeholder;
+}

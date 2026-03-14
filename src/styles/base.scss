@@ -1,0 +1,16 @@
+@use "@styles/variables.scss" as *;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background-color: $main-bg;
+}

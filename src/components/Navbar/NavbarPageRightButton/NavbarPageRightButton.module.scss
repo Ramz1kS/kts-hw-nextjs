@@ -1,0 +1,24 @@
+@use "@styles/variables.scss" as *;
+
+.navbarPageRightLink {
+  border: none;
+  background: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.numberContainer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: $button-navbar-right-num-bg;
+  color: $button-navbar-right-num-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 400;
+}

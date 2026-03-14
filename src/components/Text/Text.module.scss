@@ -1,0 +1,57 @@
+@use "@styles/variables.scss" as *;
+
+.title {
+  font-size: 44px;
+}
+
+.button {
+  font-size: 18px;
+}
+
+.p-22 {
+  font-size: 22px;
+}
+
+.p-20 {
+  font-size: 20px;
+}
+
+.p-18 {
+  font-size: 18px;
+}
+
+.p-16 {
+  font-size: 16px;
+}
+
+.p-14 {
+  font-size: 14px;
+}
+
+.normal {
+  font-weight: 400;
+}
+
+.medium {
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.primary {
+  color: $text-primary;
+}
+
+.secondary {
+  color: $text-secondary;
+}
+
+.accent {
+  color: $text-accent;
+}
+
+.inherit {
+  color: inherit;
+}

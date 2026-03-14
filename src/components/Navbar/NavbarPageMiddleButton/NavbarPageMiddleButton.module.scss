@@ -1,0 +1,28 @@
+@use "@styles/variables.scss" as *;
+
+.navbarPageButton {
+  height: 100%;
+  border: none;
+  background: none;
+  color: $text-primary;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    justify-content: center;
+    padding: 15px 0;
+    border-bottom: none;
+  }
+}
+
+.navbarPageButton-selected {
+  border-bottom: 2px solid $button-primary-bg;
+  color: $text-accent;
+
+  @media screen and (max-width: 600px) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}

@@ -1,0 +1,13 @@
+import type { NavItem } from "@shared/types";
+
+export const navItemsCenter: NavItem[] = [
+  { name: "Products", href: "products" },
+  //   { name: 'Categories', href: '/categories' }, потом
+  { name: "About us", href: "about" },
+];
+
+export const navLalasiaLink = "/products";
+export const errorLink = (code: string) => `/error/${code}`;
+export const productsURL = "/products";
+export const buyURL = (id?: number) => id == undefined ? "/buy" : `/buy?productId=${id}`
+export const successUrl = "/success";

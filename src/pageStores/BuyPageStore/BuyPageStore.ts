@@ -1,0 +1,126 @@
+import { promocodes } from "@/config/promocodes";
+import { LoadingInfo, ProductData } from "@shared/types";
+import { action, computed, makeObservable, observable, runInAction } from "mobx";
+import { loadProductsByIds } from "@/shared/productLoader";
+
+type FormDataKeys = 'name' | 'phone' | 'email' | 'country' | 'city' | 'street' | 'cardNumber' | 'cardHolder' | 'validThru' | 'ccv';
+
+export default class BuyPageStore {
+  products = new Map<number, { name: string; price: number; count: number }>();
+  discount: number = 0
+  showForm: boolean = false
+  
+  formData = {
+    name: "",
+    phone: "",
+    email: "",
+    country: "",
+    city: "",
+    street: "",
+    cardNumber: "",
+    cardHolder: "",
+    validThru: "",
+    ccv: ""
+  }
+  
+  loadingInfo: LoadingInfo = {
+    isLoading: false,
+    isError: false,
+    errorCode: "",
+  };
+
+  constructor() {
+    makeObservable(this, {
+      products: observable,
+      loadingInfo: observable,
+      discount: observable,
+      showForm: observable,
+      formData: observable,
+      loadProducts: action.bound,
+      applyPromocode: action.bound,
+      setShowForm: action.bound,
+      setFormField: action.bound,
+      totalPrice: computed,
+      totalPriceWithDiscount: computed,
+      isFormValid: computed,
+    });
+  }
+
+  async loadProducts(productIds: Map<number, number>) {
+    if (productIds.size === 0) {
+      this.products.clear();
+      this.loadingInfo.isLoading = false;
+      return;
+    }
+
+    this.loadingInfo.isLoading = true;
+
+    try {
+      const uniqueIds = Array.from(productIds.keys());
+      const products = await loadProductsByIds(uniqueIds);
+
+      runInAction(() => {
+        this.products.clear();
+        products.forEach((product: ProductData) => {
+          const count = productIds.get(product.id) || 1;
+          this.products.set(product.id, {
+            name: product.title,
+            price: product.price,
+            count,
+          });
+        });
+      });
+    } catch (e) {
+      runInAction(() => {
+        this.loadingInfo.isError = true;
+        this.loadingInfo.errorCode = e instanceof Error ? e.message : "200";
+      });
+    } finally {
+      runInAction(() => {
+        this.loadingInfo.isLoading = false;
+      });
+    }
+  }
+
+  get totalPrice() {
+    return Array.from(this.products.values()).reduce(
+      (sum, item) => sum + item.price * item.count,
+      0
+    );
+  }
+
+  get totalPriceWithDiscount() {
+    return Array.from(this.products.values()).reduce(
+      (sum, item) => sum + item.price * item.count * (100 - this.discount) / 100,
+      0
+    );
+  }
+
+  get isFormValid() {
+    return this.formData.name.trim() !== '' &&
+      this.formData.phone.trim() !== '' &&
+      this.formData.email.trim() !== '' &&
+      this.formData.country.trim() !== '' &&
+      this.formData.city.trim() !== '' &&
+      this.formData.street.trim() !== '' &&
+      this.formData.cardNumber.trim() !== '' &&
+      this.formData.cardHolder.trim() !== '' &&
+      this.formData.validThru.trim() !== '' &&
+      this.formData.ccv.trim() !== ''
+  }
+
+  applyPromocode(inputed: string) {
+    if (promocodes.has(inputed.toUpperCase())) {
+      this.discount = promocodes.get(inputed.toUpperCase()) || 0
+    }
+  }
+
+  setShowForm(value: boolean) {
+    this.showForm = value
+  }
+
+  setFormField(field: FormDataKeys, value: string) {
+    if (this.formData.hasOwnProperty(field))
+      this.formData[field] = value
+  }
+}
