@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
     remotePatterns: [new URL('https://front-school.minio.ktsdev.ru/*')],
+    dangerouslyAllowLocalIP: true,
   },
 };
 

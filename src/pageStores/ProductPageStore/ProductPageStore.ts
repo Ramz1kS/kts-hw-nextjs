@@ -1,4 +1,4 @@
-import apiPaths from "@/config/apiRoutes";
+import apiPaths, { getRelatedProducts } from "@/config/apiRoutes";
 import { loadingDefaultInfo } from "@/config/defaults";
 import { LoadingInfo, ProductData } from "@/shared/types";
 import { makeObservable, observable } from "mobx";
@@ -33,18 +33,13 @@ export class ProductPageStore {
     };
 
     try {
-      const [res, resRelated] = await Promise.all([
-        fetch(apiPaths.getProductURL(documentId)),
-        fetch(`${apiPaths.products}&pagination[pageSize]=${RELATED_COUNT}`),
-      ]);
+      const res = await fetch(apiPaths.getProductURL(documentId))
 
       if (!res.ok) {
         throw new Error(res.status.toString());
       }
-      const [product, productsRelated] = await Promise.all([
-        res.json(),
-        resRelated.json(),
-      ]);
+      const product = await res.json();
+      const productsRelated = await getRelatedProducts(product.data.productCategory.id)
       return { product, productsRelated, loadingInfo };
     } catch (e) {
       loadingInfo.isError = true;

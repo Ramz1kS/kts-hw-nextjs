@@ -72,6 +72,7 @@ export type ProductData = {
   rating: number;
   isInStock: boolean;
   productCategory: {
+    id: number;
     title: string;
   };
   images: ProductImage[];

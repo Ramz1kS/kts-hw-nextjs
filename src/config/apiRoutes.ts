@@ -1,6 +1,7 @@
-import { ProductListQuery } from "@/shared/types";
+import { ListResponse, ProductData, ProductListQuery } from "@/shared/types";
 
 const API_DOMAIN = process.env.NEXT_PUBLIC_API_DOMAIN;
+const RELATED_COUNT = 3;
 const IMAGES_CATEGORIES = "populate[0]=images&populate[1]=productCategory";
 
 const apiPaths = {
@@ -43,5 +44,20 @@ const apiPaths = {
   },
   categories: `${API_DOMAIN}/api/product-categories`,
 };
+
+export async function getRelatedProducts(categoryId: number): Promise<ListResponse> {
+  const urlIds = `${API_DOMAIN}/api/products?fields=id&populate=productCategory&filters[productCategory][id][$eq]=${categoryId}`;
+  const resIds = await fetch(urlIds);
+  if (!resIds.ok) throw new Error(`${resIds.status}`)
+  const dataIds: ListResponse = await resIds.json()
+  const shuffledIds = dataIds.data.sort(() => 0.5 - Math.random()).map((item) => item.id)
+  console.log(shuffledIds)
+  const urlRelated = apiPaths.getProductsByIds(shuffledIds.slice(0, 3))
+  console.log(urlRelated)
+  const resRelated = await fetch(urlRelated)
+  if (!resRelated.ok) throw new Error(`${resRelated.status}`)
+  const dataRelated: ListResponse = await resRelated.json()
+  return dataRelated;
+}
 
 export default apiPaths;
