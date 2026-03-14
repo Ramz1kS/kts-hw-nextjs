@@ -3,10 +3,19 @@ import React from "react";
 import BuyPageContent from "./content";
 import BuyForm from "./form";
 
-export default async function BuyPage() {
+type BuyPageQuery = {
+  productId?: string;
+}
+
+export default async function BuyPage({
+  searchParams,
+}: {
+  searchParams: Promise<BuyPageQuery>;
+}) {
+  const params = await searchParams
   return (
     <BuyPageStoreContextProvider>
-      <BuyPageContent />
+      <BuyPageContent productId={params.productId} />
       <BuyForm />
     </BuyPageStoreContextProvider>
   );

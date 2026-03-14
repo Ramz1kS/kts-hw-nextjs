@@ -13,16 +13,18 @@ import { errorLink, productsURL } from "@/config/navConfig";
 import Link from "next/link";
 import Input from "@/components/Input";
 
-const BuyPageContent = observer(() => {
-  const searchParams = useSearchParams()
+interface BuyPageContent {
+  productId?: string;
+}
+
+const BuyPageContent = observer(({productId}: BuyPageContent) => {
   const buyPageStore = useBuyPageStore();
   const { cartStore } = useRootStore();
   const [promoInput, setPromoInput] = useState("")
 
   useEffect(() => {
-    const productId = searchParams.get("productId");  
     buyPageStore.loadProducts(
-      productId !== null && !Number.isNaN(parseInt(productId, 10)) && parseInt(productId, 10) >= 0 
+      productId !== undefined && !Number.isNaN(parseInt(productId, 10)) && parseInt(productId, 10) >= 0 
       ? new Map<number, number>([[parseInt(productId, 10), 1]]) : cartStore.productIds
     );
   }, [cartStore.isHydrated]);

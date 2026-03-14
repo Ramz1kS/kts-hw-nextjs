@@ -34,7 +34,7 @@ const BuyForm = observer(() => {
       <Text tag="h1" view="title" weight="normal" color='secondary'>Card info</Text>
       <div className={classes.buyForm__cardWrapper}>
         <div className={classes.card}>
-          <div className={classes.card__chip}></div>
+          <Text view='title' className={classes.card__title}>Your card</Text>
           <div className={classes.card__inputWrapper}>
             <Input required placeholder='Card number' value={buyPageStore.formData.cardNumber} onChange={(v) => buyPageStore.setFormField('cardNumber', v)}></Input>
             <div className={classes.card__inputWrapperDateName}>
