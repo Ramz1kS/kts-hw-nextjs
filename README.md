@@ -7,7 +7,8 @@ yarn run dev # для запуска
 ```
 Репозиторий ДЗ4:
 https://github.com/Ramz1kS/kts-hw
-Деплой: скоро
+
+Деплой: [тут!](https://kts-ecommerce-nextjs.vercel.app)
 
 ## Реализовано
 
