@@ -23,10 +23,12 @@ const FavoritesPageContent = observer(() => {
   }, [favoritesStore.isHydrated]);
 
   useEffect(() => {
-    if (pageStore.currPage > pageStore.maxPage && pageStore.maxPage > 0) {
+    if (pageStore.maxPage > 0 && pageStore.currPage > pageStore.maxPage) {
       setCurrPage(pageStore.maxPage);
+    } else if (pageStore.currPage < 1) {
+      setCurrPage(1);
     }
-  }, [pageStore.currPage, pageStore.maxPage]);
+  }, [pageStore.maxPage, pageStore.currPage]);
 
   const setCurrPage = (page: number) => {
     const params = new URLSearchParams();

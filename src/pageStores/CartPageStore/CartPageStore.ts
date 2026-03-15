@@ -24,6 +24,7 @@ export default class CartPageStore {
       setPage: action.bound,
       loadProducts: action.bound,
       removeProductId: action.bound,
+      validatePage: action.bound,
       maxPage: computed,
       price: computed,
       paginatedProducts: computed,
@@ -59,6 +60,7 @@ export default class CartPageStore {
             count: count,
           });
         });
+        this.validatePage();
       });
     } catch (e) {
       runInAction(() => {
@@ -70,6 +72,19 @@ export default class CartPageStore {
         this.loadingInfo.isLoading = false;
       });
     }
+  }
+
+  validatePage() {
+    if (this.maxPage === 0) true;
+    if (this.currPage > this.maxPage) {
+      this.currPage = this.maxPage;
+      return false;
+    }
+    if (this.currPage < 1) {
+      this.currPage = 1;
+      return false;
+    }
+    return true;
   }
 
   removeProductId(id: number) {

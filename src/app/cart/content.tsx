@@ -25,6 +25,14 @@ const CartPageContent = observer(() => {
     pageStore.loadProducts(cartStore.productIds);
   }, [cartStore.isHydrated]);
 
+  useEffect(() => {
+    if (pageStore.maxPage > 0 && pageStore.currPage > pageStore.maxPage) {
+      setCurrPage(pageStore.maxPage);
+    } else if (pageStore.currPage < 1) {
+      setCurrPage(1);
+    }
+  }, [pageStore.maxPage, pageStore.currPage]);
+
   const setCurrPage = (page: number) => {
     const params = new URLSearchParams();
     params.set("page", page.toString());

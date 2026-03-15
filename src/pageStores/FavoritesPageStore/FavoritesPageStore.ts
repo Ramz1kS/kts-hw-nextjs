@@ -24,6 +24,7 @@ export default class FavoritesPageStore {
       setPage: action.bound,
       loadProducts: action.bound,
       removeProductId: action.bound,
+      validatePage: action.bound,
       paginatedProducts: computed,
       maxPage: computed,
       totalCount: computed,
@@ -54,6 +55,7 @@ export default class FavoritesPageStore {
         products.forEach((product) => {
           this.allProducts.set(product.id, product);
         });
+        this.validatePage();
       });
     } catch (e) {
       runInAction(() => {
@@ -65,6 +67,19 @@ export default class FavoritesPageStore {
         this.loadingInfo.isLoading = false;
       });
     }
+  }
+
+  validatePage() {
+    if (this.maxPage === 0) true;
+    if (this.currPage > this.maxPage) {
+      this.currPage = this.maxPage;
+      return false;
+    }
+    if (this.currPage < 1) {
+      this.currPage = 1;
+      return false;
+    }
+    return true;
   }
 
   removeProductId(id: number) {
