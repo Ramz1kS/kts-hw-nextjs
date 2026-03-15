@@ -9,6 +9,9 @@ export default class BuyPageStore {
   products = new Map<number, { name: string; price: number; count: number }>();
   discount: number = 0
   showForm: boolean = false
+  showModal: boolean = false
+  modalType: "success" | "error" = "success"
+  modalMessage: string = ""
   
   formData = {
     name: "",
@@ -35,11 +38,15 @@ export default class BuyPageStore {
       loadingInfo: observable,
       discount: observable,
       showForm: observable,
+      showModal: observable,
+      modalType: observable,
+      modalMessage: observable,
       formData: observable,
       loadProducts: action.bound,
       applyPromocode: action.bound,
       setShowForm: action.bound,
       setFormField: action.bound,
+      closeModal: action.bound,
       totalPrice: computed,
       totalPriceWithDiscount: computed,
       isFormValid: computed,
@@ -112,7 +119,18 @@ export default class BuyPageStore {
   applyPromocode(inputed: string) {
     if (promocodes.has(inputed.toUpperCase())) {
       this.discount = promocodes.get(inputed.toUpperCase()) || 0
+      this.showModal = true
+      this.modalType = "success"
+      this.modalMessage = `Promocode applied! ${this.discount}% discount`
+    } else {
+      this.showModal = true
+      this.modalType = "error"
+      this.modalMessage = "Invalid promocode"
     }
+  }
+
+  closeModal() {
+    this.showModal = false
   }
 
   setShowForm(value: boolean) {

@@ -12,6 +12,7 @@ import { redirect, useSearchParams } from "next/navigation";
 import { errorLink, productsURL } from "@/config/navConfig";
 import Link from "next/link";
 import Input from "@/components/Input";
+import Modal from "@/components/Modal";
 
 interface BuyPageContent {
   productId?: string;
@@ -47,56 +48,64 @@ const BuyPageContent = observer(({productId}: BuyPageContent) => {
   }
 
   return (
-    <div className={classes.content}>
-      <div className={classes.productsList}>
-        {Array.from(buyPageStore.products.entries()).map(([id, product]) => (
-          <div key={id} className={classes.productItem}>
-            <Text view="p-18" weight="medium">
-              {product.name}
-            </Text>
-            <div className={classes.productItem__costCalc}>
-              <Text view="p-16">
-                {product.price} $ * {product.count}
+    <>
+      <Modal
+        isOpen={buyPageStore.showModal}
+        onClose={() => buyPageStore.closeModal()}
+        type={buyPageStore.modalType}
+        message={buyPageStore.modalMessage}
+      />
+      <div className={classes.content}>
+        <div className={classes.productsList}>
+          {Array.from(buyPageStore.products.entries()).map(([id, product]) => (
+            <div key={id} className={classes.productItem}>
+              <Text view="p-18" weight="medium">
+                {product.name}
               </Text>
-              <div className={classes.productItem__cost}>
-                <Text view="p-18" weight="bold" color="accent">
-                  {product.price * product.count * (100 - buyPageStore.discount) / 100} $
+              <div className={classes.productItem__costCalc}>
+                <Text view="p-16">
+                  {product.price} $ * {product.count}
                 </Text>
-                {buyPageStore.discount !== 0 ? 
-                <Text view="p-18" weight="medium" color="secondary" className={classes.costBefore}>
-                  {product.price * product.count} $
-                </Text> : null}
+                <div className={classes.productItem__cost}>
+                  <Text view="p-18" weight="bold" color="accent">
+                    {product.price * product.count * (100 - buyPageStore.discount) / 100} $
+                  </Text>
+                  {buyPageStore.discount !== 0 ? 
+                  <Text view="p-18" weight="medium" color="secondary" className={classes.costBefore}>
+                    {product.price * product.count} $
+                  </Text> : null}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div>
-        <div className={classes.promoInput}>
-          <Input 
-          value={promoInput}
-          placeholder="Input promocode here, if you have one"
-          onChange={setPromoInput}></Input>
-          <Button oneLined onClick={
-            () => buyPageStore.applyPromocode(promoInput)
-          }>Apply</Button>
+          ))}
         </div>
-        <div className={classes.total__wrapper}>
-          <div className={classes.total}>
-            <Text view="p-20" weight="bold">
-            Result: 
-            </Text>
-            <Text view="p-20" weight="bold" color="accent">
-              {buyPageStore.totalPriceWithDiscount} $
-            </Text>
-            <Text view="p-16" color="secondary" className={classes.costBefore}>
-              {buyPageStore.discount !== 0 ? `${buyPageStore.totalPrice} $` : null}
-            </Text>
+        <div>
+          <div className={classes.promoInput}>
+            <Input 
+            value={promoInput}
+            placeholder="Input promocode here, if you have one"
+            onChange={setPromoInput}></Input>
+            <Button oneLined onClick={
+              () => buyPageStore.applyPromocode(promoInput)
+            }>Apply</Button>
           </div>
-          <Button oneLined onClick={() => buyPageStore.setShowForm(true)}>Make order</Button>
+          <div className={classes.total__wrapper}>
+            <div className={classes.total}>
+              <Text view="p-20" weight="bold">
+              Result: 
+              </Text>
+              <Text view="p-20" weight="bold" color="accent">
+                {buyPageStore.totalPriceWithDiscount} $
+              </Text>
+              <Text view="p-16" color="secondary" className={classes.costBefore}>
+                {buyPageStore.discount !== 0 ? `${buyPageStore.totalPrice} $` : null}
+              </Text>
+            </div>
+            <Button oneLined onClick={() => buyPageStore.setShowForm(true)}>Make order</Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 });
 

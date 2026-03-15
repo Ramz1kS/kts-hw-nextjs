@@ -27,6 +27,8 @@ export type CardProps = {
   discountPercent?: number;
   isInStock?: boolean;
   id: number;
+  isInCart?: boolean;
+  cartCount?: number;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -41,6 +43,8 @@ const Card: React.FC<CardProps> = ({
   rating,
   isInStock,
   id,
+  isInCart,
+  cartCount,
 }) => {
   const finalClassName = classNames(classes.card, className, {
     [classes["card-notInStock"]]: !isInStock,
@@ -59,6 +63,16 @@ const Card: React.FC<CardProps> = ({
       transition={{ duration: 0.2 }}
     >
       <FavoriteButton id={id}></FavoriteButton>
+      {isInCart && cartCount && cartCount > 0 && (
+        <div className={classes.card__cartBadge}>
+          <Image src="/bag-2.svg" width={24} height={24} alt="In cart" />
+          {cartCount > 1 && (
+            <div className={classes.card__cartCount}>
+              <Text view="p-14" weight="bold">{cartCount}</Text>
+            </div>
+          )}
+        </div>
+      )}
         <Image
           className={classes.card__image}
           onError={onImageNotFound}

@@ -1,0 +1,29 @@
+@use '@styles/variables' as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $modal-background;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: $card-bg;
+  padding: 30px 40px;
+  border: 2px solid;
+
+  &_success {
+    border-color: $modal-good-border;
+  }
+
+  &_error {
+    border-color: $modal-bad-border;
+  }
+}
+

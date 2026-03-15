@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useProductListPageStore } from "@/hooks/useProductListPageStore";
 import CardList from "@/components/CardList";
-import PageDescription from "./components/PageDescription/PageDescription";
+import PageDescription from "../../components/PageDescription/PageDescription";
 import ProductsStatus from "./components/ProductsStatus/ProductsStatus";
 import classes from "./Products.module.scss";
 import { useRootStore } from "@hooks/useRootStore";

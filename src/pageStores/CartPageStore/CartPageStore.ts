@@ -94,10 +94,8 @@ export default class CartPageStore {
 
   get paginatedProducts() {
     const allItems: ProductData[] = [];
-    this.allProducts.forEach(({ data, count }) => {
-      for (let i = 0; i < count; i++) {
-        allItems.push(data);
-      }
+    this.allProducts.forEach(({ data }) => {
+      allItems.push(data);
     });
 
     const start = (this.currPage - 1) * this.pageSize;

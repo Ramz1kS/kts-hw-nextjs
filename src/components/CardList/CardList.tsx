@@ -1,4 +1,6 @@
-import React from "react";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import classes from "./CardList.module.scss";
 import Button from "@components/Button";
 import Card from "@components/Card";
@@ -6,6 +8,8 @@ import type { ProductData } from "@shared/types";
 import Link from "next/link";
 import * as motion from "motion/react-client";
 import Text from "@components/Text";
+import { useRootStore } from "@/hooks/useRootStore";
+import { observer } from "mobx-react-lite";
 
 interface CardListInterface {
   products: ProductData[];
@@ -13,11 +17,17 @@ interface CardListInterface {
   onButtonClick?: (val: ProductData) => void;
 }
 
-const CardList: React.FC<CardListInterface> = ({
+const CardList: React.FC<CardListInterface> = observer(({
   products,
   buttonText,
   onButtonClick,
 }) => {
+  const { cartStore } = useRootStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <>
       {products.length == 0 ? (
@@ -28,7 +38,7 @@ const CardList: React.FC<CardListInterface> = ({
         <ul className={classes["card-list"]}>
           {products.map((product, index) => (
             <motion.li
-              key={index}
+              key={product.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -46,6 +56,10 @@ const CardList: React.FC<CardListInterface> = ({
                     }
                     id={product.id}
                     isInStock={product.isInStock}
+                    isInCart={
+                      mounted && cartStore.productIds.has(product.id)
+                    }
+                    cartCount={cartStore.productIds.get(product.id)}
                     captionSlot={product.productCategory.title}
                     title={product.title}
                     subtitle={product.description}
@@ -98,6 +112,6 @@ const CardList: React.FC<CardListInterface> = ({
       )}
     </>
   );
-};
+});
 
 export default CardList;

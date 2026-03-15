@@ -2,7 +2,7 @@ import type { NavItem } from "@shared/types";
 
 export const navItemsCenter: NavItem[] = [
   { name: "Products", href: "products" },
-  //   { name: 'Categories', href: '/categories' }, потом
+  { name: 'Categories', href: 'categories' },
   { name: "About us", href: "about" },
 ];
 
