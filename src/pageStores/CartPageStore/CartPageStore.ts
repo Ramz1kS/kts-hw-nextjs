@@ -104,7 +104,7 @@ export default class CartPageStore {
   }
 
   get maxPage() {
-    return Math.ceil(this.totalCount / this.pageSize);
+    return Math.ceil(Array.from(this.allProducts.values()).length / this.pageSize);
   }
 
   get price() {

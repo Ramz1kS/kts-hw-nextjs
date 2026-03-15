@@ -10,7 +10,6 @@ import NavbarCartLink from "@components/Navbar/NavbarCartLink";
 import { usePathname } from "next/navigation";
 import { observer } from "mobx-react-lite";
 import NavbarFavoritesLink from "./NavbarFavoritesLink";
-import { useRootStore } from "@/hooks/useRootStore";
 
 const Navbar = observer(() => {
   const path = usePathname().split("/");

@@ -1,7 +1,6 @@
-import { ListResponse, ProductData, ProductListQuery } from "@/shared/types";
+import { ListResponse, ProductListQuery } from "@/shared/types";
 
 const API_DOMAIN = process.env.NEXT_PUBLIC_API_DOMAIN;
-const RELATED_COUNT = 3;
 const IMAGES_CATEGORIES = "populate[0]=images&populate[1]=productCategory";
 
 const apiPaths = {

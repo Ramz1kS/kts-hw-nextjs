@@ -140,7 +140,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = observer(
             exit={{ opacity: 0, y: -10 }}
             className={classes.dropdownOptionsContainer}
           >
-            {filteredOptions.map((option, index) => (
+            {filteredOptions.map((option) => (
               <DropdownOption
                 key={option.id}
                 optionKey={option.id}

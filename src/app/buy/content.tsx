@@ -8,7 +8,7 @@ import classes from "./Buy.module.scss";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import Loader from "@/components/Loader";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import { errorLink, productsURL } from "@/config/navConfig";
 import Link from "next/link";
 import Input from "@/components/Input";
