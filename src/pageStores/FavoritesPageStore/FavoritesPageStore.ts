@@ -30,8 +30,10 @@ export default class FavoritesPageStore {
     });
   }
 
-  setPage(page: number) {
-    this.currPage = page;
+  setPage(val: number) {
+    if (val < 1) this.currPage = 1;
+    else if (val > this.maxPage) this.currPage = this.maxPage;
+    else this.currPage = val;
   }
 
   async loadProducts(productIds: Set<number>) {
