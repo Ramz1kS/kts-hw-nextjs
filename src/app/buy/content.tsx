@@ -13,6 +13,7 @@ import { errorLink, productsURL } from "@/config/navConfig";
 import Link from "next/link";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
+import classNames from "classnames";
 
 interface BuyPageContent {
   productId?: string;
@@ -58,23 +59,40 @@ const BuyPageContent = observer(({productId}: BuyPageContent) => {
       <div className={classes.content}>
         <div className={classes.productsList}>
           {Array.from(buyPageStore.products.entries()).map(([id, product]) => (
-            <div key={id} className={classes.productItem}>
-              <Text view="p-18" weight="medium">
-                {product.name}
-              </Text>
-              <div className={classes.productItem__costCalc}>
-                <Text view="p-16">
-                  {product.price} $ * {product.count}
+            <div key={id} className={classNames(classes.productItem, {
+              [classes.productItem_outOfStock]: !product.isInStock
+            })}>
+              <div>
+                <Text view="p-18" weight="medium">
+                  {product.name}
                 </Text>
-                <div className={classes.productItem__cost}>
-                  <Text view="p-18" weight="bold" color="accent">
-                    {product.price * product.count * (100 - buyPageStore.discount) / 100} $
+                {!product.isInStock && (
+                  <Text view="p-14" color="secondary">
+                    Not in stock
                   </Text>
-                  {buyPageStore.discount !== 0 ? 
-                  <Text view="p-18" weight="medium" color="secondary" className={classes.costBefore}>
-                    {product.price * product.count} $
-                  </Text> : null}
-                </div>
+                )}
+              </div>
+              <div className={classes.productItem__costCalc}>
+                {product.isInStock ? (
+                  <>
+                    <Text view="p-16">
+                      {product.price} $ * {product.count}
+                    </Text>
+                    <div className={classes.productItem__cost}>
+                      <Text view="p-18" weight="bold" color="accent">
+                        {product.price * product.count * (100 - buyPageStore.discount) / 100} $
+                      </Text>
+                      {buyPageStore.discount !== 0 ? 
+                      <Text view="p-18" weight="medium" color="secondary" className={classes.costBefore}>
+                        {product.price * product.count} $
+                      </Text> : null}
+                    </div>
+                  </>
+                ) : (
+                  <Text view="p-16" color="secondary">
+                    Cannot be purchased
+                  </Text>
+                )}
               </div>
             </div>
           ))}
@@ -101,7 +119,9 @@ const BuyPageContent = observer(({productId}: BuyPageContent) => {
                 {buyPageStore.discount !== 0 ? `${buyPageStore.totalPrice} $` : null}
               </Text>
             </div>
-            <Button oneLined onClick={() => buyPageStore.setShowForm(true)}>Make order</Button>
+            {buyPageStore.hasInStockProducts && (
+              <Button oneLined onClick={() => buyPageStore.setShowForm(true)}>Make order</Button>
+            )}
           </div>
         </div>
       </div>

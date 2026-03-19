@@ -6,7 +6,7 @@ import { loadProductsByIds } from "@/shared/productLoader";
 type FormDataKeys = 'name' | 'phone' | 'email' | 'country' | 'city' | 'street' | 'cardNumber' | 'cardHolder' | 'validThru' | 'ccv';
 
 export default class BuyPageStore {
-  products = new Map<number, { name: string; price: number; count: number }>();
+  products = new Map<number, { name: string; price: number; count: number; isInStock: boolean }>();
   discount: number = 0
   showForm: boolean = false
   showModal: boolean = false
@@ -50,6 +50,7 @@ export default class BuyPageStore {
       totalPrice: computed,
       totalPriceWithDiscount: computed,
       isFormValid: computed,
+      hasInStockProducts: computed,
     });
   }
 
@@ -74,6 +75,7 @@ export default class BuyPageStore {
             name: product.title,
             price: product.price,
             count,
+            isInStock: product.isInStock,
           });
         });
       });
@@ -90,17 +92,25 @@ export default class BuyPageStore {
   }
 
   get totalPrice() {
-    return Array.from(this.products.values()).reduce(
-      (sum, item) => sum + item.price * item.count,
-      0
-    );
+    return Array.from(this.products.values())
+      .filter(item => item.isInStock)
+      .reduce(
+        (sum, item) => sum + item.price * item.count,
+        0
+      );
   }
 
   get totalPriceWithDiscount() {
-    return Array.from(this.products.values()).reduce(
-      (sum, item) => sum + item.price * item.count * (100 - this.discount) / 100,
-      0
-    );
+    return Array.from(this.products.values())
+      .filter(item => item.isInStock)
+      .reduce(
+        (sum, item) => sum + item.price * item.count * (100 - this.discount) / 100,
+        0
+      );
+  }
+
+  get hasInStockProducts() {
+    return Array.from(this.products.values()).some(item => item.isInStock);
   }
 
   get isFormValid() {
