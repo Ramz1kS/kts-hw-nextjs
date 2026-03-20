@@ -39,7 +39,7 @@ export class ProductPageStore {
         throw new Error(res.status.toString());
       }
       const product = await res.json();
-      const productsRelated = await getRelatedProducts(product.data.productCategory.id)
+      const productsRelated = await getRelatedProducts(product.data.productCategory.id, product.data.id)
       return { product, productsRelated, loadingInfo };
     } catch (e) {
       loadingInfo.isError = true;

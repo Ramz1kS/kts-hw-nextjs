@@ -44,15 +44,16 @@ const apiPaths = {
   categories: `${API_DOMAIN}/api/product-categories`,
 };
 
-export async function getRelatedProducts(categoryId: number): Promise<ListResponse> {
+export async function getRelatedProducts(categoryId: number, excludeProductId: number): Promise<ListResponse> {
   const urlIds = `${API_DOMAIN}/api/products?fields=id&populate=productCategory&filters[productCategory][id][$eq]=${categoryId}`;
   const resIds = await fetch(urlIds);
   if (!resIds.ok) throw new Error(`${resIds.status}`)
   const dataIds: ListResponse = await resIds.json()
-  const shuffledIds = dataIds.data.sort(() => 0.5 - Math.random()).map((item) => item.id)
-  console.log(shuffledIds)
+  const shuffledIds = dataIds.data
+    .filter((item) => item.id !== excludeProductId)
+    .sort(() => 0.5 - Math.random())
+    .map((item) => item.id)
   const urlRelated = apiPaths.getProductsByIds(shuffledIds.slice(0, 3))
-  console.log(urlRelated)
   const resRelated = await fetch(urlRelated)
   if (!resRelated.ok) throw new Error(`${resRelated.status}`)
   const dataRelated: ListResponse = await resRelated.json()
