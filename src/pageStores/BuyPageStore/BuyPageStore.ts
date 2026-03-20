@@ -106,7 +106,7 @@ export default class BuyPageStore {
       .reduce(
         (sum, item) => sum + item.price * item.count * (100 - this.discount) / 100,
         0
-      );
+      ).toFixed(2);
   }
 
   get hasInStockProducts() {
@@ -114,16 +114,27 @@ export default class BuyPageStore {
   }
 
   get isFormValid() {
+    const cardNumberDigits = this.formData.cardNumber.replace(/\s/g, '');
+    const cardNumberValid = cardNumberDigits.length === 16 && !isNaN(Number(cardNumberDigits));
+    
+    const ccvValid = this.formData.ccv.length === 3 && !isNaN(Number(this.formData.ccv));
+    
+    const validThruParts = this.formData.validThru.split('/');
+    const validThruValid = validThruParts.length === 2 &&
+      validThruParts[0].length === 2 && !isNaN(Number(validThruParts[0])) &&
+      validThruParts[1].length === 2 && !isNaN(Number(validThruParts[1])) &&
+      Number(validThruParts[0]) >= 1 && Number(validThruParts[0]) <= 12;
+
     return this.formData.name.trim() !== '' &&
       this.formData.phone.trim() !== '' &&
       this.formData.email.trim() !== '' &&
       this.formData.country.trim() !== '' &&
       this.formData.city.trim() !== '' &&
       this.formData.street.trim() !== '' &&
-      this.formData.cardNumber.trim() !== '' &&
+      cardNumberValid &&
       this.formData.cardHolder.trim() !== '' &&
-      this.formData.validThru.trim() !== '' &&
-      this.formData.ccv.trim() !== ''
+      validThruValid &&
+      ccvValid
   }
 
   applyPromocode(inputed: string) {
